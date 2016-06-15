@@ -1,0 +1,15 @@
+group passport {
+    register, login
+};
+
+case login {
+    get "http://passport.b2btest.com/login";
+    wait 2000;
+    assert "#pin" exists;
+    assert "input[type=password]" exists;
+};
+
+case register {
+    get "http://pass-b2b.jcloud.com/register";
+    wait response;
+};
