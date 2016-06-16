@@ -54,9 +54,9 @@ public class CaseFileParser {
                         break;
                     case POST:
                         break;
-                    case INPUT:
+                    case INPUT: parseInputCommand(caze, commandCtx);
                         break;
-                    case CLICK:
+                    case CLICK: parseClickCommand(caze, commandCtx);
                         break;
                     case ASSERT: parseAssertCommand(caze, commandCtx);
                         break;
@@ -87,6 +87,23 @@ public class CaseFileParser {
         }
 
         caze.addCommand(existsCommand);
+    }
+
+    private void parseClickCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+        ClickCommand clickCommand = new ClickCommand();
+        IdeaCaseParser.ClickStatementContext clickCtx = commandCtx.clickStatement();
+        if(clickCtx != null) {
+            TerminalNode targetNode = clickCtx.StringLiteral();
+            String target = targetNode.getText();
+            target = StringUtils.extractRealString(target);
+            if(target != null) {
+                clickCommand.setTarget(target);
+            }else{
+                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Click command target is null.");
+            }
+        }
+
+        caze.addCommand(clickCommand);
     }
 
     private void parseGetCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
@@ -128,6 +145,33 @@ public class CaseFileParser {
         caze.addCommand(waitCommand);
     }
 
+    private void parseInputCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+        InputCommand inputCommand = new InputCommand();
+        IdeaCaseParser.InputStatementContext inputCommandCtx = commandCtx.inputStatement();
+        IdeaCaseParser.InputValueContext inputValueCtx = inputCommandCtx.inputValue();
+        TerminalNode inputValueNode = inputValueCtx.StringLiteral();
+        String inputValue = inputValueNode.getText();
+        IdeaCaseParser.InputToContext inputToCtx = inputCommandCtx.inputTo();
+        TerminalNode inputTargetNode = inputToCtx.StringLiteral();
+        String inputTarget = inputTargetNode.getText();
+        if(inputValue != null && inputTarget != null) {
+            String value = StringUtils.extractRealString(inputValue);
+            String target = StringUtils.extractRealString(inputTarget);
+            if(target != null) {
+                inputCommand.setTarget(target);
+            }else{
+                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command target is null.");
+            }
+            if(target != null) {
+                inputCommand.setValue(value);
+            }else{
+                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command value is null.");
+            }
+        }
+
+        caze.addCommand(inputCommand);
+    }
+
     private CommandType determineCommandType(IdeaCaseParser.CommandStatementContext commandCtx) {
         if(commandCtx.getStatement() != null) {
             return CommandType.GET;
@@ -135,6 +179,10 @@ public class CaseFileParser {
             return CommandType.WAIT;
         }else  if(commandCtx.assertStatement() != null){
             return CommandType.ASSERT;
+        }else  if(commandCtx.inputStatement() != null){
+            return CommandType.INPUT;
+        }else  if(commandCtx.clickStatement() != null){
+            return CommandType.CLICK;
         }
         return null;
     }

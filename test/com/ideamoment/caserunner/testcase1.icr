@@ -7,9 +7,15 @@ case login {
     wait 2000;
     assert "#pin" exists;
     assert "input[type=password]" exists;
+    input "15903670102" to "#pin";
+    input "360buy" to "input[type=password]";
+    click ".loginBtn";
+    click "a[href=http://buyer.b2btest.com]";
 };
 
+/*
 case register {
     get "http://pass-b2b.jcloud.com/register";
     wait response;
 };
+*/

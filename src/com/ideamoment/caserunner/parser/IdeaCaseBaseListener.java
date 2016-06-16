@@ -131,6 +131,54 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExistsStatement(IdeaCaseParser.ExistsStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInputStatement(IdeaCaseParser.InputStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInputStatement(IdeaCaseParser.InputStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClickStatement(IdeaCaseParser.ClickStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClickStatement(IdeaCaseParser.ClickStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInputValue(IdeaCaseParser.InputValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInputValue(IdeaCaseParser.InputValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInputTo(IdeaCaseParser.InputToContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInputTo(IdeaCaseParser.InputToContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

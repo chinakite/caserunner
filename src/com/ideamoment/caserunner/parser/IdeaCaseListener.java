@@ -107,4 +107,44 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExistsStatement(IdeaCaseParser.ExistsStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#inputStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputStatement(IdeaCaseParser.InputStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#inputStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputStatement(IdeaCaseParser.InputStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#clickStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterClickStatement(IdeaCaseParser.ClickStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#clickStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitClickStatement(IdeaCaseParser.ClickStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#inputValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputValue(IdeaCaseParser.InputValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#inputValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputValue(IdeaCaseParser.InputValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#inputTo}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputTo(IdeaCaseParser.InputToContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#inputTo}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputTo(IdeaCaseParser.InputToContext ctx);
 }

@@ -34,7 +34,10 @@ public class CaseRunner {
         List<Command> commands = caze.getCommands();
         for(Command command : commands) {
             if(command.getType() == CommandType.GET
-                    || command.getType() == CommandType.ASSERT) {
+                    || command.getType() == CommandType.ASSERT
+                    || command.getType() == CommandType.INPUT
+                    || command.getType() == CommandType.CLICK
+                    || command.getType() == CommandType.WAIT) {
                 CommandExecuteResult result = command.execute(driver);
                 if(result != null && result.getResult().equals("success")) {
                     System.out.println("YES");

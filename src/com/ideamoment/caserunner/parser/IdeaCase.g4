@@ -17,6 +17,7 @@ commandStatement
     | waitStatement ';'
     | assertStatement ';'
     | inputStatement ';'
+    | clickStatement ';'
     ;
 
 // STATEMENTS / BLOCKS
@@ -43,17 +44,37 @@ timeoutStatement
     ;
 
 assertStatement
-    : existsStatement
+    : ASSERT conditionStatement
     ;
 
 existsStatement
-    : ASSERT StringLiteral EXISTS
+    : StringLiteral EXISTS
     ;
 
 inputStatement
-    : inputValue inputValueTo
+    : inputValue inputTo
+    ;
+
+clickStatement
+    : CLICK StringLiteral
+    ;
+
+inputValue
+    :   INPUT StringLiteral
+    ;
+
+inputTo
+    :   TO StringLiteral
+    ;
+
+conditionStatament
+    :   existsStatement
     ;
     
+whenStatement
+    :   WHEN conditionStatament
+    ;
+
 WS
     : [ \t\n\r]+ -> skip
     ;                            // 空白， 后面的->skip表示antlr4在分析语言的文本时，符合这个规则的词法将被无视
@@ -81,6 +102,7 @@ CLICK               : 'click';
 ASSERT              : 'assert';
 RESPONSE            : 'response';
 TIMEOUT             : 'timeout';
+WHEN                : 'when';
 
 EXISTS              : 'exists';
 
@@ -129,16 +151,6 @@ UnicodeEscape
 fragment
 ZeroToThree
     :   [0-3]
-    ;
-    
-fragment
-inputValue
-    :   INPUT StringLiteral
-    ;
-    
-fragment
-inputValueTo
-    :   TO StringLiteral
     ;
 
 ID

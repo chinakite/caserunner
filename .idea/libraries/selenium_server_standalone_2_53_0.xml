@@ -1,7 +1,6 @@
 <component name="libraryTable">
-  <library name="junit-4.6">
+  <library name="selenium-server-standalone-2.53.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/junit-4.6.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/selenium-server-standalone-2.53.0.jar!/" />
     </CLASSES>
     <JAVADOC />

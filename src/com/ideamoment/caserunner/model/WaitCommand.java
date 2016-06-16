@@ -43,6 +43,14 @@ public class WaitCommand extends Command {
 
     @Override
     public CommandExecuteResult execute(WebDriver driver) {
-        return null;
+        CommandExecuteResult result = new CommandExecuteResult();
+        try {
+            Thread.sleep(this.waitSeconds);
+            result.setResult("success");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            result.setResult("failed");
+        }
+        return result;
     }
 }
