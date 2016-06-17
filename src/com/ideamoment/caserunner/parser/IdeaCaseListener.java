@@ -147,4 +147,24 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInputTo(IdeaCaseParser.InputToContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#conditionStatament}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#conditionStatament}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#whenStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhenStatement(IdeaCaseParser.WhenStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#whenStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhenStatement(IdeaCaseParser.WhenStatementContext ctx);
 }

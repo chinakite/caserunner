@@ -44,7 +44,7 @@ timeoutStatement
     ;
 
 assertStatement
-    : ASSERT conditionStatement
+    : ASSERT conditionStatament
     ;
 
 existsStatement
@@ -56,7 +56,7 @@ inputStatement
     ;
 
 clickStatement
-    : CLICK StringLiteral
+    : CLICK StringLiteral whenStatement?
     ;
 
 inputValue

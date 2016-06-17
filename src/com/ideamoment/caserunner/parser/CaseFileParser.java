@@ -1,14 +1,24 @@
 package com.ideamoment.caserunner.parser;
 
-import com.ideamoment.caserunner.model.*;
-import com.ideamoment.caserunner.util.StringUtils;
+import java.io.InputStream;
+import java.util.List;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
+import com.ideamoment.caserunner.model.Case;
+import com.ideamoment.caserunner.model.CaseFile;
+import com.ideamoment.caserunner.model.CaseGroup;
+import com.ideamoment.caserunner.model.ClickCommand;
+import com.ideamoment.caserunner.model.CommandType;
+import com.ideamoment.caserunner.model.ExistsAssertCommand;
+import com.ideamoment.caserunner.model.GetCommand;
+import com.ideamoment.caserunner.model.InputCommand;
+import com.ideamoment.caserunner.model.WaitCommand;
+import com.ideamoment.caserunner.model.condition.Condition;
+import com.ideamoment.caserunner.model.condition.ExistsCondition;
+import com.ideamoment.caserunner.util.StringUtils;
 
 /**
  * Created by zhangzhonghua on 2016/6/6.
@@ -74,7 +84,11 @@ public class CaseFileParser {
     private void parseAssertCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
         ExistsAssertCommand existsCommand = new ExistsAssertCommand();
         IdeaCaseParser.AssertStatementContext assertCtx = commandCtx.assertStatement();
-        IdeaCaseParser.ExistsStatementContext existsCtx = assertCtx.existsStatement();
+        IdeaCaseParser.ConditionStatamentContext conditionCtx = assertCtx.conditionStatament();
+        if(conditionCtx == null) {
+            throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Exists command condition is null.");
+        }
+        IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
         if(existsCtx != null) {
             TerminalNode targetNode = existsCtx.StringLiteral();
             String target = targetNode.getText();
@@ -100,6 +114,26 @@ public class CaseFileParser {
                 clickCommand.setTarget(target);
             }else{
                 throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Click command target is null.");
+            }
+            
+            IdeaCaseParser.WhenStatementContext whenCtx = clickCtx.whenStatement();
+            if(whenCtx != null) {
+                IdeaCaseParser.ConditionStatamentContext conditionCtx = whenCtx.conditionStatament();
+                if(conditionCtx != null) {
+                    IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
+                    if(existsCtx != null) {
+                        ExistsCondition condition = new ExistsCondition();
+                        
+                        TerminalNode existsTargetNode = existsCtx.StringLiteral();
+                        String existsTarget = existsTargetNode.getText();
+                        existsTarget = StringUtils.extractRealString(existsTarget);
+                        condition.setTarget(existsTarget);
+                        
+                        clickCommand.setCondition(condition);
+                    }
+                }else{
+                    throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "When statement condition is null.");
+                } 
             }
         }
 

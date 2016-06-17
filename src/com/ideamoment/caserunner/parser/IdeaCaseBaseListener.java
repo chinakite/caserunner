@@ -179,6 +179,30 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInputTo(IdeaCaseParser.InputToContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterWhenStatement(IdeaCaseParser.WhenStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitWhenStatement(IdeaCaseParser.WhenStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

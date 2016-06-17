@@ -10,6 +10,5 @@ case login {
     input "ideacaserunner@sina.com" to "#freename";
     input "IdeaCaseRunner1" to "#freepassword";
     click ".loginBtn";
-    wait 3000;
-    click ".wrWriteBtn a";
+    click ".wrWriteBtn a" when ".wrWriteBtn a" exists;
 };
