@@ -69,7 +69,7 @@ public class ClickCommand extends Command {
         try {
             if(condition != null) {
                 if(condition.getType() == ConditionType.EXISTS) {
-                    WebDriverWait wait = new WebDriverWait(driver, 10);
+                    WebDriverWait wait = new WebDriverWait(driver, condition.getTimeout());
                     wait.until(new ExpectedCondition<WebElement>(){  
                         @Override  
                         public WebElement apply(WebDriver d) {  

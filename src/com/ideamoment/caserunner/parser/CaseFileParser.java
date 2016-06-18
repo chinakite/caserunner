@@ -119,21 +119,28 @@ public class CaseFileParser {
             IdeaCaseParser.WhenStatementContext whenCtx = clickCtx.whenStatement();
             if(whenCtx != null) {
                 IdeaCaseParser.ConditionStatamentContext conditionCtx = whenCtx.conditionStatament();
+                ExistsCondition condition = new ExistsCondition();
                 if(conditionCtx != null) {
                     IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
                     if(existsCtx != null) {
-                        ExistsCondition condition = new ExistsCondition();
-                        
                         TerminalNode existsTargetNode = existsCtx.StringLiteral();
                         String existsTarget = existsTargetNode.getText();
                         existsTarget = StringUtils.extractRealString(existsTarget);
                         condition.setTarget(existsTarget);
-                        
-                        clickCommand.setCondition(condition);
                     }
                 }else{
                     throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "When statement condition is null.");
-                } 
+                }
+
+                IdeaCaseParser.TimeoutStatementContext timeoutCtx = whenCtx.timeoutStatement();
+                TerminalNode timeoutNumNode = timeoutCtx.NUMBER();
+                if(timeoutNumNode != null) {
+                    String timeoutNumStr = timeoutNumNode.getText();
+                    int timeoutNum = Integer.parseInt(timeoutNumStr);
+                    condition.setTimeout(timeoutNum);
+                }
+
+                clickCommand.setCondition(condition);
             }
         }
 

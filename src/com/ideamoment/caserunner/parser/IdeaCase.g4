@@ -72,7 +72,7 @@ conditionStatament
     ;
     
 whenStatement
-    :   WHEN conditionStatament
+    :   WHEN conditionStatament timeoutStatement?
     ;
 
 WS

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class TestCaseRunner {
     @Test
     public void testRun() {
-//        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase1.icr");
+//        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
         File file = new File("E:\\iWorkspace\\java\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
         try {
             FileInputStream source = new FileInputStream(file);
