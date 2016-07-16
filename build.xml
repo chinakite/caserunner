@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     2010-10-22 下午16:01:22                                                        
+
+     IDEADP-CORE    
+                   
+     Chinakite Zhang                                                                
+     ====================================================================== -->
+<project name="Case Runner" default="default" basedir="./">
+    <description>
+        User Center of 6wanr.com .
+    </description>
+
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="bin" location="out/production/caserunner"/>
+    <property name="lib" location="lib"/>
+    <property name="dist" location="dist"/>
+    
+    <!-- set compile classpath -->
+    <path id="compile.classpath">
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="init">
+        <mkdir dir="${bin}"/>
+    </target>
+    
+    <!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" depends="deploy" description="6Wanr UserCenter.">
+    </target>
+    
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: jar                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="deploy" depends="jar">
+        <copy todir="../ideatesting/WebRoot/WEB-INF/lib">
+            <fileset dir="${dist}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="jar">
+        <jar destfile="${dist}/caserunner-0.1.jar" > 
+            <fileset dir="./out/production/caserunner">
+                <exclude name="**/Test*.class"/>
+                <exclude name="**/*.icr"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="compile">
+        <javac srcdir="${src}" destdir="${bin}" encoding="UTF-8" classpathref="compile.classpath">
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+    </target>
+    
+</project>

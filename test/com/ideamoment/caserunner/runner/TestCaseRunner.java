@@ -28,7 +28,7 @@ public class TestCaseRunner {
             Env env = new Env();
             env.setBrowser(BrowserType.CHROME);
 
-            CaseRunner runner = new CaseRunner();
+            LocalCaseRunner runner = new LocalCaseRunner();
             Map<String, Case> cases = casefile.getCases();
             runner.run(env, cases.get("login"));
 

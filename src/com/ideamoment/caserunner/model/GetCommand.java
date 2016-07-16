@@ -25,6 +25,8 @@ public class GetCommand extends Command {
     @Override
     public CommandExecuteResult execute(WebDriver driver) {
         driver.get(url);
-        return null;
+        CommandExecuteResult result = new CommandExecuteResult();
+        result.setResult("success");
+        return result;
     }
 }
