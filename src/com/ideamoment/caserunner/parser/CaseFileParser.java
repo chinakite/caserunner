@@ -55,6 +55,11 @@ public class CaseFileParser {
             TerminalNode caseNameNode = caseCtx.ID();
             String caseName = caseNameNode.getText();
             caze.setName(caseName);
+            
+            int startLine = caseCtx.getStart().getLine();
+            int endLine = caseCtx.getStop().getLine();
+            caze.setStartLine(startLine);
+            caze.setEndLine(endLine);
 
             List<IdeaCaseParser.CommandStatementContext> commandCtxs = caseCtx.commandStatement();
             for(IdeaCaseParser.CommandStatementContext commandCtx : commandCtxs) {
@@ -100,11 +105,22 @@ public class CaseFileParser {
             }
         }
 
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        existsCommand.setStartLine(startLine);
+        existsCommand.setEndLine(stopLine);
+        
         caze.addCommand(existsCommand);
     }
 
     private void parseClickCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
         ClickCommand clickCommand = new ClickCommand();
+        
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        clickCommand.setStartLine(startLine);
+        clickCommand.setEndLine(stopLine);
+        
         IdeaCaseParser.ClickStatementContext clickCtx = commandCtx.clickStatement();
         if(clickCtx != null) {
             TerminalNode targetNode = clickCtx.StringLiteral();
@@ -154,6 +170,12 @@ public class CaseFileParser {
         GetCommand getCommand = new GetCommand();
         getCommand.setType(CommandType.GET);
         getCommand.setUrl(url);
+        
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        getCommand.setStartLine(startLine);
+        getCommand.setEndLine(stopLine);
+        
         caze.addCommand(getCommand);
     }
 
@@ -183,6 +205,11 @@ public class CaseFileParser {
             }
         }
 
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        waitCommand.setStartLine(startLine);
+        waitCommand.setEndLine(stopLine);
+        
         caze.addCommand(waitCommand);
     }
 
@@ -210,6 +237,11 @@ public class CaseFileParser {
             }
         }
 
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        inputCommand.setStartLine(startLine);
+        inputCommand.setEndLine(stopLine);
+        
         caze.addCommand(inputCommand);
     }
 

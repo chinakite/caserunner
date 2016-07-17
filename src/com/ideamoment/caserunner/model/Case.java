@@ -10,6 +10,10 @@ public class Case {
     private String namespace;
 
     private String name;
+    
+    private int startLine;
+    
+    private int endLine;
 
     private List<Command> commands = new ArrayList<Command>();
 
@@ -44,4 +48,34 @@ public class Case {
     public void addCommand(Command command) {
         commands.add(command);
     }
+    
+    /**
+     * @return the startLine
+     */
+    public int getStartLine() {
+        return startLine;
+    }
+    
+    /**
+     * @param startLine the startLine to set
+     */
+    public void setStartLine(int startLine) {
+        this.startLine = startLine;
+    }
+
+    /**
+     * @return the endLine
+     */
+    public int getEndLine() {
+        return endLine;
+    }
+    
+    /**
+     * @param endLine the endLine to set
+     */
+    public void setEndLine(int endLine) {
+        this.endLine = endLine;
+    }
+    
+    
 }
