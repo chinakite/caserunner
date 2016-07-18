@@ -17,13 +17,13 @@ public class ExistsAssertCommand extends AssertCommand {
             WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));
 
             if(webElement != null) {
-                result.setResult("success");
+                result.setResult(CommandExecuteResultType.SUCCESS);
             }else{
-                result.setResult("failed");
+                result.setResult(CommandExecuteResultType.FAILED);
             }
             return result;
         }catch(NoSuchElementException ex) {
-            result.setResult("failed");
+            result.setResult(CommandExecuteResultType.FAILED);
             return result;
         }
     }

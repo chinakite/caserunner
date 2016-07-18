@@ -26,7 +26,7 @@ public class GetCommand extends Command {
     public CommandExecuteResult execute(WebDriver driver) {
         driver.get(url);
         CommandExecuteResult result = new CommandExecuteResult();
-        result.setResult("success");
+        result.setResult(CommandExecuteResultType.SUCCESS);
         return result;
     }
 }

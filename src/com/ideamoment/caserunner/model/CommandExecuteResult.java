@@ -6,7 +6,7 @@ package com.ideamoment.caserunner.model;
 public class CommandExecuteResult {
     private String statusCode;
 
-    private String result;
+    private CommandExecuteResultType result;
 
     private String message;
 
@@ -18,11 +18,11 @@ public class CommandExecuteResult {
         this.statusCode = statusCode;
     }
 
-    public String getResult() {
+    public CommandExecuteResultType getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(CommandExecuteResultType result) {
         this.result = result;
     }
 

@@ -46,10 +46,10 @@ public class WaitCommand extends Command {
         CommandExecuteResult result = new CommandExecuteResult();
         try {
             Thread.sleep(this.waitSeconds);
-            result.setResult("success");
+            result.setResult(CommandExecuteResultType.SUCCESS);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            result.setResult("failed");
+            result.setResult(CommandExecuteResultType.FAILED);
         }
         return result;
     }

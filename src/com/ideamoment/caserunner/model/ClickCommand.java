@@ -81,10 +81,10 @@ public class ClickCommand extends Command {
                 WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));
                 webElement.click();
             }
-            result.setResult("success");
+            result.setResult(CommandExecuteResultType.SUCCESS);
             return result;
         }catch(NoSuchElementException ex) {
-            result.setResult("failed");
+            result.setResult(CommandExecuteResultType.FAILED);
             return result;
         }
     }
