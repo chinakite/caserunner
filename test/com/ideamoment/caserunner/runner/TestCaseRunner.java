@@ -30,7 +30,9 @@ public class TestCaseRunner {
 
             LocalCaseRunner runner = new LocalCaseRunner();
             Map<String, Case> cases = casefile.getCases();
+            runner.run(env, cases.get("openLoginPage"));
             runner.run(env, cases.get("login"));
+            runner.run(env, cases.get("writeEmail"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

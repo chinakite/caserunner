@@ -1,8 +1,11 @@
 package com.ideamoment.caserunner.parser;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ideamoment.caserunner.config.CaseRunnerConfig;
+import com.ideamoment.caserunner.result.RunResultHandler;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -27,6 +30,18 @@ public class CaseFileParser {
 
     public CaseFile parse(InputStream source) {
         try {
+            String handlerClasses = CaseRunnerConfig.get("caserunner.resulthandler", null);
+            List<RunResultHandler> handlers = null;
+            if(handlerClasses != null) {
+                handlers = new ArrayList<RunResultHandler>();
+                String[] handlerClassArray = handlerClasses.split(",");
+                for(String clazzDef : handlerClassArray) {
+                    Class c = Class.forName(clazzDef);
+                    RunResultHandler handler = (RunResultHandler)c.newInstance();
+                    handlers.add(handler);
+                }
+            }
+
             ANTLRInputStream input = new ANTLRInputStream(source);
             IdeaCaseLexer lexer = new IdeaCaseLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -48,7 +63,8 @@ public class CaseFileParser {
         }
     }
 
-    private void parseCase(CaseFile caseFile, IdeaCaseParser.ParseRootContext ctx) {
+    private void parseCase(CaseFile caseFile,
+                           IdeaCaseParser.ParseRootContext ctx) {
         List<IdeaCaseParser.CaseStatementContext> caseStatements = ctx.caseStatement();
         for(IdeaCaseParser.CaseStatementContext caseCtx : caseStatements) {
             Case caze = new Case();
@@ -86,7 +102,8 @@ public class CaseFileParser {
         }
     }
 
-    private void parseAssertCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+    private void parseAssertCommand(Case caze,
+                                    IdeaCaseParser.CommandStatementContext commandCtx) {
         ExistsAssertCommand existsCommand = new ExistsAssertCommand();
         IdeaCaseParser.AssertStatementContext assertCtx = commandCtx.assertStatement();
         IdeaCaseParser.ConditionStatamentContext conditionCtx = assertCtx.conditionStatament();
@@ -109,17 +126,14 @@ public class CaseFileParser {
         int stopLine = commandCtx.getStop().getLine();
         existsCommand.setStartLine(startLine);
         existsCommand.setEndLine(stopLine);
+        existsCommand.setText(commandCtx.getText());
         
         caze.addCommand(existsCommand);
     }
 
-    private void parseClickCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+    private void parseClickCommand(Case caze,
+                                   IdeaCaseParser.CommandStatementContext commandCtx) {
         ClickCommand clickCommand = new ClickCommand();
-        
-        int startLine = commandCtx.getStart().getLine();
-        int stopLine = commandCtx.getStop().getLine();
-        clickCommand.setStartLine(startLine);
-        clickCommand.setEndLine(stopLine);
         
         IdeaCaseParser.ClickStatementContext clickCtx = commandCtx.clickStatement();
         if(clickCtx != null) {
@@ -160,10 +174,17 @@ public class CaseFileParser {
             }
         }
 
+        int startLine = commandCtx.getStart().getLine();
+        int stopLine = commandCtx.getStop().getLine();
+        clickCommand.setStartLine(startLine);
+        clickCommand.setEndLine(stopLine);
+        clickCommand.setText(commandCtx.getText());
+        
         caze.addCommand(clickCommand);
     }
 
-    private void parseGetCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+    private void parseGetCommand(Case caze,
+                                 IdeaCaseParser.CommandStatementContext commandCtx) {
         TerminalNode node = commandCtx.getStatement().StringLiteral();
         String url = node.getText();
         url = StringUtils.extractRealString(url);
@@ -175,11 +196,13 @@ public class CaseFileParser {
         int stopLine = commandCtx.getStop().getLine();
         getCommand.setStartLine(startLine);
         getCommand.setEndLine(stopLine);
+        getCommand.setText(commandCtx.getText());
         
         caze.addCommand(getCommand);
     }
 
-    private void parseWaitCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+    private void parseWaitCommand(Case caze,
+                                  IdeaCaseParser.CommandStatementContext commandCtx) {
         WaitCommand waitCommand = new WaitCommand();
         waitCommand.setType(CommandType.WAIT);
 
@@ -209,11 +232,13 @@ public class CaseFileParser {
         int stopLine = commandCtx.getStop().getLine();
         waitCommand.setStartLine(startLine);
         waitCommand.setEndLine(stopLine);
+        waitCommand.setText(commandCtx.getText());
         
         caze.addCommand(waitCommand);
     }
 
-    private void parseInputCommand(Case caze, IdeaCaseParser.CommandStatementContext commandCtx) {
+    private void parseInputCommand(Case caze,
+                                   IdeaCaseParser.CommandStatementContext commandCtx) {
         InputCommand inputCommand = new InputCommand();
         IdeaCaseParser.InputStatementContext inputCommandCtx = commandCtx.inputStatement();
         IdeaCaseParser.InputValueContext inputValueCtx = inputCommandCtx.inputValue();
@@ -241,6 +266,7 @@ public class CaseFileParser {
         int stopLine = commandCtx.getStop().getLine();
         inputCommand.setStartLine(startLine);
         inputCommand.setEndLine(stopLine);
+        inputCommand.setText(commandCtx.getText());
         
         caze.addCommand(inputCommand);
     }
@@ -260,7 +286,8 @@ public class CaseFileParser {
         return null;
     }
 
-    private void parseGroup(CaseFile caseFile, IdeaCaseParser.ParseRootContext ctx) {
+    private void parseGroup(CaseFile caseFile,
+                            IdeaCaseParser.ParseRootContext ctx) {
         List<IdeaCaseParser.GroupStatementContext> groupStatements = ctx.groupStatement();
         for(IdeaCaseParser.GroupStatementContext groupCtx : groupStatements) {
             CaseGroup group = new CaseGroup();

@@ -16,6 +16,8 @@ public class Case {
     private int endLine;
 
     private List<Command> commands = new ArrayList<Command>();
+    
+    private List<String> depends = new ArrayList<String>();
 
     public Case() {
     }
@@ -76,6 +78,22 @@ public class Case {
     public void setEndLine(int endLine) {
         this.endLine = endLine;
     }
+
+    /**
+     * @return the depends
+     */
+    public List<String> getDepends() {
+        return depends;
+    }
+
+    /**
+     * @param depends the depends to set
+     */
+    public void setDepends(List<String> depends) {
+        this.depends = depends;
+    }
     
-    
+    public void addDepend(String depend) {
+        this.depends.add(depend);
+    }
 }
