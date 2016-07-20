@@ -3,19 +3,28 @@ group sinamail {
 };
 
 case openLoginPage {
-    get "http://mail.sina.com.cn";
+    get "http://mail.sina.com.cn" timeout 5000;
     wait 2000;
+    click "#sinaadToolkitBox0 .sinaads-float-close" when "#sinaadToolkitBox0 a" shown;
 }
 
 case login {    
     assert "#freename" exists;
     assert "#freepassword" exists;
+
+    input "dafadsfasdfew" to "#freename";
+    input "yurythgkhg" to "#freepassword";
+    click ".loginBtn";
+    assert ".freeError" shown;
+    assert ".freeError .tip11" shown;
+    assert ".freeError .tip11".css("color") = "#e32929";
+
     input "ideacaserunner@sina.com" to "#freename";
     input "IdeaCaseRunner1" to "#freepassword";
     click ".loginBtn";
     wait 5000;
 };
 
-case writeEmail {
+case writeEmail depend login {
     click ".wrWriteBtn a" when ".wrWriteBtn a" exists timeout 5;
 }

@@ -3,11 +3,13 @@
  */
 package com.ideamoment.caserunner.model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.ideamoment.caserunner.model.condition.ExistsCondition;
+import com.ideamoment.caserunner.model.condition.ShownCondition;
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+import com.ideamoment.caserunner.model.dict.CommandType;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.ideamoment.caserunner.model.condition.Condition;
@@ -69,13 +71,45 @@ public class ClickCommand extends Command {
         try {
             if(condition != null) {
                 if(condition.getType() == ConditionType.EXISTS) {
-                    WebDriverWait wait = new WebDriverWait(driver, condition.getTimeout());
-                    wait.until(new ExpectedCondition<WebElement>(){  
-                        @Override  
-                        public WebElement apply(WebDriver d) {  
-                            return d.findElement(By.cssSelector(target));  
+                    final ExistsCondition existCondition = (ExistsCondition)condition;
+                    long timeout = condition.getTimeout();
+                    WebDriverWait wait = new WebDriverWait(driver, timeout / 1000);
+                    try {
+                        WebElement webElement = wait.until(new ExpectedCondition<WebElement>() {
+                            @Override
+                            public WebElement apply(WebDriver d) {
+                                return d.findElement(By.cssSelector(existCondition.getTarget()));
+                            }
+                        });
+
+                        if(webElement != null) {
+                            WebElement targetElement = driver.findElement(By.cssSelector(this.getTarget()));
+                            if(targetElement != null) {
+                                targetElement.click();
+                            }
                         }
-                    }).click();
+                    }catch(TimeoutException te) {
+                        te.printStackTrace();
+                        result.setResult(CommandExecuteResultType.FAILED);
+                        return result;
+                    }
+                }else if(condition.getType() == ConditionType.SHOWN) {
+                    ShownCondition showCondition = (ShownCondition)condition;
+                    long timeout = condition.getTimeout();
+                    WebDriverWait wait = new WebDriverWait(driver, timeout / 1000);
+                    try {
+                        WebElement webElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(showCondition.getTarget()))));
+                        if (webElement != null) {
+                            WebElement targetElement = driver.findElement(By.cssSelector(this.getTarget()));
+                            if (targetElement != null) {
+                                targetElement.click();
+                            }
+                        }
+                    }catch(TimeoutException te) {
+                        te.printStackTrace();
+                        result.setResult(CommandExecuteResultType.FAILED);
+                        return result;
+                    }
                 }
             }else{
                 WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));

@@ -1,5 +1,6 @@
 package com.ideamoment.caserunner.model;
 
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;

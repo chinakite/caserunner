@@ -136,6 +136,18 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterShownStatement(IdeaCaseParser.ShownStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitShownStatement(IdeaCaseParser.ShownStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInputStatement(IdeaCaseParser.InputStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +215,18 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitWhenStatement(IdeaCaseParser.WhenStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDependStatement(IdeaCaseParser.DependStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDependStatement(IdeaCaseParser.DependStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

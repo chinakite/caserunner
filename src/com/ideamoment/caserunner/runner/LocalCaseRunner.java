@@ -1,15 +1,12 @@
 package com.ideamoment.caserunner.runner;
 
 import com.ideamoment.caserunner.model.*;
+import com.ideamoment.caserunner.model.dict.CommandBlockType;
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.result.RunResultHandler;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,9 +36,11 @@ public class LocalCaseRunner extends AbstractCaseRunner implements CaseRunner {
                     System.out.println("YES");
                 }else{
                     System.out.println("Fuck!");
+                    if(command.getBlockType() == CommandBlockType.BLOCKED) {
+                        break;
+                    }
                 }
             }
         }
     }
-
 }

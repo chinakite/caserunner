@@ -9,7 +9,7 @@ parseRoot
     ;
 
 caseStatement
-    : CASE ID '{' commandStatement* '}' ';'*
+    : CASE ID dependStatement?  '{' commandStatement* '}' ';'*
     ;
 
 commandStatement
@@ -30,7 +30,7 @@ groupBody
     ;
 
 getStatement
-    : GET StringLiteral
+    : GET StringLiteral timeoutStatement?
     ;
 
 waitStatement
@@ -51,6 +51,10 @@ existsStatement
     : StringLiteral EXISTS
     ;
 
+shownStatement
+    : StringLiteral SHOWN
+    ;
+
 inputStatement
     : inputValue inputTo
     ;
@@ -69,10 +73,15 @@ inputTo
 
 conditionStatament
     :   existsStatement
+    |   shownStatement
     ;
     
 whenStatement
     :   WHEN conditionStatament timeoutStatement?
+    ;
+
+dependStatement
+    :   DEPEND ID (',' ID)*
     ;
 
 WS
@@ -103,8 +112,10 @@ ASSERT              : 'assert';
 RESPONSE            : 'response';
 TIMEOUT             : 'timeout';
 WHEN                : 'when';
+DEPEND              : 'depend';
 
 EXISTS              : 'exists';
+SHOWN               : 'shown';
 
 fragment
 HexDigits

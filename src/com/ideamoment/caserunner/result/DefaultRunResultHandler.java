@@ -2,7 +2,7 @@ package com.ideamoment.caserunner.result;
 
 import com.ideamoment.caserunner.model.Command;
 import com.ideamoment.caserunner.model.CommandExecuteResult;
-import com.ideamoment.caserunner.model.CommandExecuteResultType;
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 
 /**
  * Created by zhangzhonghua on 2016/7/18.

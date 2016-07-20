@@ -1,10 +1,8 @@
 package com.ideamoment.caserunner.model;
 
-import com.ideamoment.caserunner.result.RunResultHandler;
+import com.ideamoment.caserunner.model.dict.CommandBlockType;
+import com.ideamoment.caserunner.model.dict.CommandType;
 import org.openqa.selenium.WebDriver;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zhangzhonghua on 2016/6/1.
@@ -18,6 +16,8 @@ public abstract class Command {
     protected int endLine;
     
     protected String text;
+
+    protected CommandBlockType blockType = CommandBlockType.NON_BLOCKED;
 
     public abstract CommandType getType();
 
@@ -69,4 +69,11 @@ public abstract class Command {
         this.text = text;
     }
 
+    public CommandBlockType getBlockType() {
+        return blockType;
+    }
+
+    public void setBlockType(CommandBlockType blockType) {
+        this.blockType = blockType;
+    }
 }

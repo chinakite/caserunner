@@ -108,6 +108,16 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 */
 	void exitExistsStatement(IdeaCaseParser.ExistsStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#shownStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterShownStatement(IdeaCaseParser.ShownStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#shownStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitShownStatement(IdeaCaseParser.ShownStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IdeaCaseParser#inputStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -167,4 +177,14 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitWhenStatement(IdeaCaseParser.WhenStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dependStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDependStatement(IdeaCaseParser.DependStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dependStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDependStatement(IdeaCaseParser.DependStatementContext ctx);
 }

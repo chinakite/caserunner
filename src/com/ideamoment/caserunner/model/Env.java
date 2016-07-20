@@ -4,6 +4,9 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.ideamoment.caserunner.model.dict.BrowserType;
+import com.ideamoment.caserunner.model.dict.EnvType;
+import com.ideamoment.caserunner.model.dict.OSType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;

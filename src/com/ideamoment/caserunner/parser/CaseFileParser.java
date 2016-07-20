@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ideamoment.caserunner.config.CaseRunnerConfig;
+import com.ideamoment.caserunner.model.condition.Condition;
+import com.ideamoment.caserunner.model.condition.ShownCondition;
+import com.ideamoment.caserunner.model.dict.CommandBlockType;
 import com.ideamoment.caserunner.result.RunResultHandler;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -14,12 +17,11 @@ import com.ideamoment.caserunner.model.Case;
 import com.ideamoment.caserunner.model.CaseFile;
 import com.ideamoment.caserunner.model.CaseGroup;
 import com.ideamoment.caserunner.model.ClickCommand;
-import com.ideamoment.caserunner.model.CommandType;
+import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.model.ExistsAssertCommand;
 import com.ideamoment.caserunner.model.GetCommand;
 import com.ideamoment.caserunner.model.InputCommand;
 import com.ideamoment.caserunner.model.WaitCommand;
-import com.ideamoment.caserunner.model.condition.Condition;
 import com.ideamoment.caserunner.model.condition.ExistsCondition;
 import com.ideamoment.caserunner.util.StringUtils;
 
@@ -76,6 +78,15 @@ public class CaseFileParser {
             int endLine = caseCtx.getStop().getLine();
             caze.setStartLine(startLine);
             caze.setEndLine(endLine);
+
+            IdeaCaseParser.DependStatementContext dependCtx = caseCtx.dependStatement();
+            if(dependCtx != null) {
+                List<TerminalNode> dependIds = dependCtx.ID();
+                for(TerminalNode dependNode : dependIds) {
+                    String dependId = dependNode.getText();
+                    caze.addDepend(dependId);
+                }
+            }
 
             List<IdeaCaseParser.CommandStatementContext> commandCtxs = caseCtx.commandStatement();
             for(IdeaCaseParser.CommandStatementContext commandCtx : commandCtxs) {
@@ -149,22 +160,33 @@ public class CaseFileParser {
             IdeaCaseParser.WhenStatementContext whenCtx = clickCtx.whenStatement();
             if(whenCtx != null) {
                 IdeaCaseParser.ConditionStatamentContext conditionCtx = whenCtx.conditionStatament();
-                ExistsCondition condition = new ExistsCondition();
+                Condition condition = null;
                 if(conditionCtx != null) {
                     IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
                     if(existsCtx != null) {
+                        condition = new ExistsCondition();
                         TerminalNode existsTargetNode = existsCtx.StringLiteral();
                         String existsTarget = existsTargetNode.getText();
                         existsTarget = StringUtils.extractRealString(existsTarget);
-                        condition.setTarget(existsTarget);
+
+                        ((ExistsCondition)condition).setTarget(existsTarget);
+                    }
+
+                    IdeaCaseParser.ShownStatementContext shownCtx = conditionCtx.shownStatement();
+                    if(shownCtx != null) {
+                        condition = new ShownCondition();
+                        TerminalNode shownTargetNode = shownCtx.StringLiteral();
+                        String shownTarget = shownTargetNode.getText();
+                        shownTarget = StringUtils.extractRealString(shownTarget);
+                        ((ShownCondition)condition).setTarget(shownTarget);
                     }
                 }else{
                     throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "When statement condition is null.");
                 }
 
                 IdeaCaseParser.TimeoutStatementContext timeoutCtx = whenCtx.timeoutStatement();
-                TerminalNode timeoutNumNode = timeoutCtx.NUMBER();
-                if(timeoutNumNode != null) {
+                if(timeoutCtx != null && condition != null) {
+                    TerminalNode timeoutNumNode = timeoutCtx.NUMBER();
                     String timeoutNumStr = timeoutNumNode.getText();
                     int timeoutNum = Integer.parseInt(timeoutNumStr);
                     condition.setTimeout(timeoutNum);
@@ -189,15 +211,24 @@ public class CaseFileParser {
         String url = node.getText();
         url = StringUtils.extractRealString(url);
         GetCommand getCommand = new GetCommand();
+        getCommand.setBlockType(CommandBlockType.BLOCKED);
         getCommand.setType(CommandType.GET);
         getCommand.setUrl(url);
-        
+
+        IdeaCaseParser.TimeoutStatementContext timeoutCtx = commandCtx.getStatement().timeoutStatement();
+        if(timeoutCtx != null) {
+            TerminalNode timeoutNode = timeoutCtx.NUMBER();
+            String timeoutStr = timeoutNode.getText();
+            int timeout = Integer.parseInt(timeoutStr);
+            getCommand.setTimeout(timeout);
+        }
+
         int startLine = commandCtx.getStart().getLine();
         int stopLine = commandCtx.getStop().getLine();
         getCommand.setStartLine(startLine);
         getCommand.setEndLine(stopLine);
         getCommand.setText(commandCtx.getText());
-        
+
         caze.addCommand(getCommand);
     }
 

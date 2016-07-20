@@ -5,7 +5,7 @@ package com.ideamoment.caserunner.model.condition;
  */
 public abstract class Condition {
 
-    protected int timeout = 10;
+    protected int timeout = 10000;
 
     public abstract ConditionType getType();
 

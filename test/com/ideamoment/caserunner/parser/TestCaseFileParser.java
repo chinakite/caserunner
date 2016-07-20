@@ -17,8 +17,8 @@ import static org.junit.Assert.assertEquals;
 public class TestCaseFileParser {
     @Test
     public void testParse() {
-//        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase1.icr");
-        File file = new File("E:\\iWorkspace\\java\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
+        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
+//        File file = new File("E:\\iWorkspace\\java\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
         try {
             FileInputStream source = new FileInputStream(file);
             CaseFileParser parser = new CaseFileParser();
@@ -28,20 +28,24 @@ public class TestCaseFileParser {
             assertEquals(3, casefile.getCases().size());
 
             Map<String, Case> cases = casefile.getCases();
+
+            Case loginPageCase = cases.get("openLoginPage");
+            assertEquals(2, loginPageCase.getCommands().size());
+            List<Command> loginPageCommands = loginPageCase.getCommands();
+            assertEquals(5000, ((GetCommand)loginPageCommands.get(0)).getTimeout());
+
             Case loginCase = cases.get("login");
 
             assertEquals("login", loginCase.getName());
 
-            List<Command> commands = loginCase.getCommands();
-//            assertEquals(3, commands.size());
-//            GetCommand getCommand = (GetCommand)commands.get(0);
-//            assertEquals("http://pass-b2b.jcloud.com/login", getCommand.getUrl());
-//
-//            WaitCommand waitCommand = (WaitCommand)commands.get(1);
-//            assertEquals(2000, waitCommand.getWaitSeconds());
+            List<Command> loginCommands = loginCase.getCommands();
 
-            ExistsAssertCommand existsCommand = (ExistsAssertCommand)commands.get(0);
+            ExistsAssertCommand existsCommand = (ExistsAssertCommand)loginCommands.get(0);
             assertEquals("#freename", existsCommand.getTarget());
+
+            Case writeEmailCase = cases.get("writeEmail");
+            assertEquals(1, writeEmailCase.getDepends().size());
+            assertEquals("login", writeEmailCase.getDepends().get(0));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

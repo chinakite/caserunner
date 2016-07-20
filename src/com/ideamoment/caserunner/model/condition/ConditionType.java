@@ -6,5 +6,5 @@ package com.ideamoment.caserunner.model.condition;
  *
  */
 public enum ConditionType {
-    EXISTS
+    EXISTS, SHOWN
 }

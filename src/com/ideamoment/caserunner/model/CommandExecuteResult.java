@@ -1,5 +1,7 @@
 package com.ideamoment.caserunner.model;
 
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+
 /**
  * Created by zhangzhonghua on 2016/6/8.
  */
