@@ -18,6 +18,15 @@ public class StringUtils {
         return !isEmpty(input);
     }
 
+    public static boolean isNumeric(String input) {
+        String regex = "^-?[0-9]+.?[0-9]+";
+        if(regex.matches(regex)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public static String extractRealString(String input) {
         if(isNotEmpty(input)
                 && input.startsWith("\"")

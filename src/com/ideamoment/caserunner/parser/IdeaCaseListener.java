@@ -118,6 +118,36 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 */
 	void exitShownStatement(IdeaCaseParser.ShownStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#binaryStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinaryStatement(IdeaCaseParser.BinaryStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#binaryStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinaryStatement(IdeaCaseParser.BinaryStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#binaryPartStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinaryPartStatement(IdeaCaseParser.BinaryPartStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#binaryPartStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinaryPartStatement(IdeaCaseParser.BinaryPartStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#methodStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodStatement(IdeaCaseParser.MethodStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#methodStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodStatement(IdeaCaseParser.MethodStatementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IdeaCaseParser#inputStatement}.
 	 * @param ctx the parse tree
 	 */
@@ -167,6 +197,16 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#logicStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicStatement(IdeaCaseParser.LogicStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#logicStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicStatement(IdeaCaseParser.LogicStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link IdeaCaseParser#whenStatement}.
 	 * @param ctx the parse tree

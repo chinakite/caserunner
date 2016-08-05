@@ -1,28 +1,20 @@
 package com.ideamoment.caserunner.parser;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ideamoment.caserunner.config.CaseRunnerConfig;
-import com.ideamoment.caserunner.model.condition.Condition;
-import com.ideamoment.caserunner.model.condition.ShownCondition;
-import com.ideamoment.caserunner.model.dict.CommandBlockType;
+import com.ideamoment.caserunner.model.*;
+import com.ideamoment.caserunner.model.condition.*;
+import com.ideamoment.caserunner.model.dict.*;
+import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.result.RunResultHandler;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import com.ideamoment.caserunner.model.Case;
-import com.ideamoment.caserunner.model.CaseFile;
-import com.ideamoment.caserunner.model.CaseGroup;
-import com.ideamoment.caserunner.model.ClickCommand;
-import com.ideamoment.caserunner.model.dict.CommandType;
-import com.ideamoment.caserunner.model.ExistsAssertCommand;
-import com.ideamoment.caserunner.model.GetCommand;
-import com.ideamoment.caserunner.model.InputCommand;
-import com.ideamoment.caserunner.model.WaitCommand;
-import com.ideamoment.caserunner.model.condition.ExistsCondition;
 import com.ideamoment.caserunner.util.StringUtils;
 
 /**
@@ -115,31 +107,201 @@ public class CaseFileParser {
 
     private void parseAssertCommand(Case caze,
                                     IdeaCaseParser.CommandStatementContext commandCtx) {
-        ExistsAssertCommand existsCommand = new ExistsAssertCommand();
-        IdeaCaseParser.AssertStatementContext assertCtx = commandCtx.assertStatement();
-        IdeaCaseParser.ConditionStatamentContext conditionCtx = assertCtx.conditionStatament();
-        if(conditionCtx == null) {
-            throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Exists command condition is null.");
-        }
-        IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
-        if(existsCtx != null) {
-            TerminalNode targetNode = existsCtx.StringLiteral();
-            String target = targetNode.getText();
-            target = StringUtils.extractRealString(target);
-            if(target != null) {
-                existsCommand.setTarget(target);
-            }else{
-                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Exists command target is null.");
-            }
-        }
-
         int startLine = commandCtx.getStart().getLine();
         int stopLine = commandCtx.getStop().getLine();
-        existsCommand.setStartLine(startLine);
-        existsCommand.setEndLine(stopLine);
-        existsCommand.setText(commandCtx.getText());
-        
-        caze.addCommand(existsCommand);
+
+        IdeaCaseParser.AssertStatementContext assertCtx = commandCtx.assertStatement();
+
+        IdeaCaseParser.LogicStatementContext logicCtx = assertCtx.logicStatement();
+        if(logicCtx != null) {
+            LogicAssertCommand logicAssertCommand = parseLogicAssertCommand(logicCtx);
+            caze.addCommand(logicAssertCommand);
+        }
+
+        IdeaCaseParser.BinaryStatementContext binaryCtx = assertCtx.binaryStatement();
+        if(binaryCtx != null) {
+            BinaryAssertCommand binaryAssertCommand = parseBinaryAssertCommand(binaryCtx);
+            caze.addCommand(binaryAssertCommand);
+        }
+
+        IdeaCaseParser.ConditionStatamentContext conditionCtx = assertCtx.conditionStatament();
+        if(conditionCtx != null) {
+            IdeaCaseParser.ExistsStatementContext existsCtx = conditionCtx.existsStatement();
+            if (existsCtx != null) {
+                ExistsAssertCommand existsCommand = parseExistsCommand(existsCtx);
+                existsCommand.setStartLine(startLine);
+                existsCommand.setEndLine(stopLine);
+                existsCommand.setText(commandCtx.getText());
+                caze.addCommand(existsCommand);
+            }
+
+            IdeaCaseParser.ShownStatementContext shownCtx = conditionCtx.shownStatement();
+            if (shownCtx != null) {
+                ShownAssertCommand shownCommand = parseShownCommand(shownCtx);
+                shownCommand.setStartLine(startLine);
+                shownCommand.setEndLine(stopLine);
+                shownCommand.setText(commandCtx.getText());
+                caze.addCommand(shownCommand);
+            }
+        }
+    }
+
+    private LogicAssertCommand parseLogicAssertCommand(IdeaCaseParser.LogicStatementContext logicCtx) {
+        LogicAssertCommand logicAssertCommand = new LogicAssertCommand();
+
+        TerminalNode logicOpNode = logicCtx.LOGIC_OP();
+        String logicOpText = logicOpNode.getText();
+        LogicConditionType logicType = null;
+        if(LogicConditionConstants.AND.equals(logicOpText)) {
+            logicType = LogicConditionType.AND;
+        }else if(LogicConditionConstants.OR.equals(logicOpText)) {
+            logicType = LogicConditionType.OR;
+        }
+        logicAssertCommand.setLogicType(logicType);
+
+        List<IdeaCaseParser.ConditionStatamentContext> logicConditionCtxs = logicCtx.conditionStatament();
+        if(logicConditionCtxs == null || logicConditionCtxs.size() != 2) {
+            throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Logic command conditions size is not 2.");
+        }
+        int logicCount = 0;
+        for(IdeaCaseParser.ConditionStatamentContext logicConditionCtx : logicConditionCtxs) {
+            BinaryPartStatement binaryPartStatement = new BinaryPartStatement();
+            IdeaCaseParser.ExistsStatementContext existsCtx = logicConditionCtx.existsStatement();
+            if(existsCtx != null) {
+                ExistsAssertCommand existsCommand = parseExistsCommand(existsCtx);
+                binaryPartStatement.setType(BinaryPartType.ASSERT_COMMAND);
+                binaryPartStatement.setAssertCommand(existsCommand);
+            }
+            IdeaCaseParser.ShownStatementContext shownCtx = logicConditionCtx.shownStatement();
+            if(shownCtx != null) {
+                ShownAssertCommand shownCommand = parseShownCommand(shownCtx);
+                binaryPartStatement.setType(BinaryPartType.ASSERT_COMMAND);
+                binaryPartStatement.setAssertCommand(shownCommand);
+            }
+
+            IdeaCaseParser.BinaryStatementContext binaryCtx = logicConditionCtx.binaryStatement();
+            if(binaryCtx != null) {
+                BinaryAssertCommand binaryCommand = parseBinaryAssertCommand(binaryCtx);
+                binaryPartStatement.setType(BinaryPartType.ASSERT_COMMAND);
+                binaryPartStatement.setAssertCommand(binaryCommand);
+            }
+
+            if(logicCount == 0) {
+                logicAssertCommand.setLeft(binaryPartStatement);
+            }else{
+                logicAssertCommand.setRight(binaryPartStatement);
+            }
+            logicCount++;
+        }
+        return logicAssertCommand;
+    }
+
+    private BinaryAssertCommand parseBinaryAssertCommand(IdeaCaseParser.BinaryStatementContext binaryCtx) {
+        BinaryAssertCommand binaryCommand = new BinaryAssertCommand();
+        TerminalNode binOpNode = binaryCtx.BIN_OP();
+        String binOpStr = binOpNode.getText();
+        BinaryOp binaryOp = null;
+        if(BinaryOpConstants.EQ.equals(binOpStr)) {
+            binaryOp = BinaryOp.EQ;
+        }else if(BinaryOpConstants.NE.equals(binOpStr)) {
+            binaryOp = BinaryOp.NE;
+        }else if(BinaryOpConstants.GT.equals(binOpStr)) {
+            binaryOp = BinaryOp.GT;
+        }else if(BinaryOpConstants.GE.equals(binOpStr)) {
+            binaryOp = BinaryOp.GE;
+        }else if(BinaryOpConstants.LT.equals(binOpStr)) {
+            binaryOp = BinaryOp.LT;
+        }else if(BinaryOpConstants.LE.equals(binOpStr)) {
+            binaryOp = BinaryOp.LE;
+        }
+
+        binaryCommand.setOp(binaryOp);
+
+        List<IdeaCaseParser.BinaryPartStatementContext> binaryPartStatementCtxs = binaryCtx.binaryPartStatement();
+        int c=0;
+        for(IdeaCaseParser.BinaryPartStatementContext binaryPartStatementCtx : binaryPartStatementCtxs) {
+            BinaryPartStatement binaryPartStatement = new BinaryPartStatement();
+            IdeaCaseParser.MethodStatementContext methodCtx = binaryPartStatementCtx.methodStatement();
+            if(methodCtx != null) {
+                ValueMethod valueMethod = new ValueMethod();
+                TerminalNode cssMethodNode = methodCtx.M_CSS();
+                TerminalNode attrMethodNode = methodCtx.M_ATTR();
+                TerminalNode textMethodNode = methodCtx.M_TEXT();
+                TerminalNode valMethodNode = methodCtx.M_VAL();
+                if(cssMethodNode != null) {
+                    valueMethod.setMethodType(MethodType.CSS);
+                }else if(attrMethodNode != null) {
+                    valueMethod.setMethodType(MethodType.ATTR);
+                }else if(textMethodNode != null) {
+                    valueMethod.setMethodType(MethodType.TEXT);
+                }else if(valMethodNode != null) {
+                    valueMethod.setMethodType(MethodType.VAL);
+                }
+                TerminalNode paramNode = methodCtx.StringLiteral();
+                if(paramNode != null) {
+                    String paramStr = paramNode.getText();
+                    paramStr = StringUtils.extractRealString(paramStr);
+                    valueMethod.setParam(paramStr);
+                }
+
+                String target = binaryPartStatementCtx.StringLiteral().getText();
+                target = StringUtils.extractRealString(target);
+                binaryPartStatement.setTarget(target);
+                binaryPartStatement.setType(BinaryPartType.METHOD);
+                binaryPartStatement.setValueMethod(valueMethod);
+            }else if(binaryPartStatementCtx.StringLiteral() != null){
+                String str = binaryPartStatementCtx.StringLiteral().getText();
+                str = StringUtils.extractRealString(str);
+                binaryPartStatement.setType(BinaryPartType.STRING);
+                binaryPartStatement.setStrValue(str);
+            }else if(binaryPartStatementCtx.NUMBER() != null){
+                String numberStr = binaryPartStatementCtx.NUMBER().getText();
+                if(numberStr.indexOf(".") > -1) {
+                    BigDecimal decimalValue = new BigDecimal(numberStr);
+                    binaryPartStatement.setDecimalValue(decimalValue);
+                    binaryPartStatement.setType(BinaryPartType.DECIMAL);
+                }else{
+                    Integer intValue = Integer.valueOf(numberStr);
+                    binaryPartStatement.setIntValue(intValue);
+                    binaryPartStatement.setType(BinaryPartType.INTEGER);
+                }
+            }
+
+            if(c == 0) {
+                binaryCommand.setLeft(binaryPartStatement);
+            }else{
+                binaryCommand.setRight(binaryPartStatement);
+            }
+            c++;
+        }
+
+        return binaryCommand;
+    }
+
+    private ExistsAssertCommand parseExistsCommand(IdeaCaseParser.ExistsStatementContext existsCtx) {
+        ExistsAssertCommand existsCommand = new ExistsAssertCommand();
+        TerminalNode targetNode = existsCtx.StringLiteral();
+        String target = targetNode.getText();
+        target = StringUtils.extractRealString(target);
+        if(target != null) {
+            existsCommand.setTarget(target);
+        }else{
+            throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Exists command param is null.");
+        }
+        return existsCommand;
+    }
+
+    private ShownAssertCommand parseShownCommand(IdeaCaseParser.ShownStatementContext shownCtx) {
+        ShownAssertCommand shownCommand = new ShownAssertCommand();
+        TerminalNode targetNode = shownCtx.StringLiteral();
+        String target = targetNode.getText();
+        target = StringUtils.extractRealString(target);
+        if(target != null) {
+            shownCommand.setTarget(target);
+        }else{
+            throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Shown command param is null.");
+        }
+        return shownCommand;
     }
 
     private void parseClickCommand(Case caze,
@@ -154,7 +316,7 @@ public class CaseFileParser {
             if(target != null) {
                 clickCommand.setTarget(target);
             }else{
-                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Click command target is null.");
+                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Click command param is null.");
             }
             
             IdeaCaseParser.WhenStatementContext whenCtx = clickCtx.whenStatement();
@@ -284,7 +446,7 @@ public class CaseFileParser {
             if(target != null) {
                 inputCommand.setTarget(target);
             }else{
-                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command target is null.");
+                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command param is null.");
             }
             if(target != null) {
                 inputCommand.setValue(value);

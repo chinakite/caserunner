@@ -18,12 +18,24 @@ case login {
     assert ".freeError" shown;
     assert ".freeError .tip11" shown;
     assert ".freeError .tip11".css("color") = "#e32929";
+    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" shown;
+    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" exists;
+    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError .tip11".val() = 123;
 
     input "ideacaserunner@sina.com" to "#freename";
     input "IdeaCaseRunner1" to "#freepassword";
     click ".loginBtn";
     wait 5000;
 };
+
+case assertResult {
+    assert ".freeError" shown;
+    assert ".freeError .tip11" exists;
+    assert ".freeError .tip11".css("color") = "#e32929";
+    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" shown;
+    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" exists;
+    assert ".freeError .tip11".css("color") = "#e32929" || ".freeError .tip11".val() = 123;
+}
 
 case writeEmail depend login {
     click ".wrWriteBtn a" when ".wrWriteBtn a" exists timeout 5;

@@ -44,7 +44,9 @@ timeoutStatement
     ;
 
 assertStatement
-    : ASSERT conditionStatament
+    : ASSERT logicStatement
+    | ASSERT binaryStatement
+    | ASSERT conditionStatament
     ;
 
 existsStatement
@@ -53,6 +55,37 @@ existsStatement
 
 shownStatement
     : StringLiteral SHOWN
+    ;
+
+binaryStatement
+    : binaryPartStatement BIN_OP binaryPartStatement
+    ;
+
+binaryPartStatement
+    : StringLiteral'.'methodStatement
+    | StringLiteral
+    | NUMBER
+    ;
+
+LOGIC_OP
+    : OP_AND
+    | OP_OR
+    ;
+
+BIN_OP
+    : OP_EQ
+    | OP_NE
+    | OP_LT
+    | OP_LE
+    | OP_GT
+    | OP_GE
+    ;
+
+methodStatement
+    : M_CSS'('StringLiteral')'
+    | M_TEXT'()'
+    | M_VAL'()'
+    | M_ATTR'('StringLiteral')'
     ;
 
 inputStatement
@@ -74,8 +107,13 @@ inputTo
 conditionStatament
     :   existsStatement
     |   shownStatement
+    |   binaryStatement
     ;
-    
+
+logicStatement
+    : conditionStatament LOGIC_OP conditionStatament
+    ;
+
 whenStatement
     :   WHEN conditionStatament timeoutStatement?
     ;
@@ -116,6 +154,20 @@ DEPEND              : 'depend';
 
 EXISTS              : 'exists';
 SHOWN               : 'shown';
+
+OP_EQ               : '=';
+OP_NE               : '!=';
+OP_GT               : '>';
+OP_GE               : '>=';
+OP_LT               : '<';
+OP_LE               : '<=';
+OP_AND              : '&&';
+OP_OR               : '||';
+
+M_CSS               : 'css';
+M_TEXT              : 'text';
+M_ATTR              : 'attr';
+M_VAL               : 'val';
 
 fragment
 HexDigits

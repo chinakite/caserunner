@@ -35,14 +35,14 @@ public class ClickCommand extends Command {
     }
     
     /**
-     * @return the target
+     * @return the param
      */
     public String getTarget() {
         return target;
     }
     
     /**
-     * @param target the target to set
+     * @param target the param to set
      */
     public void setTarget(String target) {
         this.target = target;

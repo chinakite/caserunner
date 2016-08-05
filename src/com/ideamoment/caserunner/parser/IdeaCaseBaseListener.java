@@ -148,6 +148,42 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBinaryStatement(IdeaCaseParser.BinaryStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryStatement(IdeaCaseParser.BinaryStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinaryPartStatement(IdeaCaseParser.BinaryPartStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinaryPartStatement(IdeaCaseParser.BinaryPartStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodStatement(IdeaCaseParser.MethodStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodStatement(IdeaCaseParser.MethodStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInputStatement(IdeaCaseParser.InputStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +239,18 @@ public class IdeaCaseBaseListener implements IdeaCaseListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConditionStatament(IdeaCaseParser.ConditionStatamentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogicStatement(IdeaCaseParser.LogicStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicStatement(IdeaCaseParser.LogicStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

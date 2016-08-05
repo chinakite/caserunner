@@ -10,4 +10,6 @@ public class CaseRunnerExceptionCode {
     //HUB连接错误
     public static final String CONNECT_HUB_ERROR = "CASERUNNER-00002";
 
+    //表达式错误
+    public static final String SYNTAX_ERROR = "CASERUNNER-00003";
 }
