@@ -30,7 +30,7 @@ public class TestCaseRunner {
             env.setType(EnvType.LOCAL);
             env.setBrowser(BrowserType.CHROME);
 
-            LocalCaseRunner runner = new LocalCaseRunner();
+            DefaultCaseRunner runner = new DefaultCaseRunner();
             Map<String, Case> cases = casefile.getCases();
             runner.run(env, cases.get("openLoginPage"));
             runner.run(env, cases.get("login"));
