@@ -30,10 +30,10 @@ public class AbstractCaseRunner {
         return this.resultHandlers;
     }
 
-    protected void handleResult(Command command, CommandExecuteResult result) {
+    protected void handleCommandResult(Command command, CommandExecuteResult result) {
         if(this.resultHandlers != null) {
             for(RunResultHandler handler : this.resultHandlers) {
-                handler.handle(command, result);
+                handler.handleCommandResult(command, result);
             }
         }
     }

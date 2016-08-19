@@ -42,6 +42,8 @@ public class LogicAssertCommand extends AssertCommand{
     public CommandExecuteResult execute(WebDriver driver) {
         CommandExecuteResult result = new CommandExecuteResult();
 
+        result.setCommand(this);
+        
         try {
             AssertCommand leftAssertCommand = null, rightAssertCommand = null;
             if(BinaryPartType.ASSERT_COMMAND == left.getType()) {
@@ -102,7 +104,7 @@ public class LogicAssertCommand extends AssertCommand{
 
             return result;
         }catch(NoSuchElementException ex) {
-            result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.FAILED);
+            result.setResult(CommandExecuteResultType.FAILED);
             return result;
         }
     }

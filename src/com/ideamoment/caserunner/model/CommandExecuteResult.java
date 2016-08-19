@@ -6,13 +6,24 @@ import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
  * Created by zhangzhonghua on 2016/6/8.
  */
 public class CommandExecuteResult {
+	
+	private Command command;
+	
     private String statusCode;
 
     private CommandExecuteResultType result;
 
     private String message;
 
-    public String getStatusCode() {
+    public Command getCommand() {
+		return command;
+	}
+
+	public void setCommand(Command command) {
+		this.command = command;
+	}
+
+	public String getStatusCode() {
         return statusCode;
     }
 

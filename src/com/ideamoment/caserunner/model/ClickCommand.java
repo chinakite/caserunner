@@ -68,6 +68,9 @@ public class ClickCommand extends Command {
     @Override
     public CommandExecuteResult execute(WebDriver driver) {
         CommandExecuteResult result = new CommandExecuteResult();
+        
+        result.setCommand(this);
+        
         try {
             if(condition != null) {
                 if(condition.getType() == ConditionType.EXISTS) {

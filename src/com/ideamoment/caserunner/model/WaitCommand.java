@@ -46,6 +46,9 @@ public class WaitCommand extends Command {
     @Override
     public CommandExecuteResult execute(WebDriver driver) {
         CommandExecuteResult result = new CommandExecuteResult();
+
+        result.setCommand(this);
+        
         try {
             Thread.sleep(this.waitSeconds);
             result.setResult(CommandExecuteResultType.SUCCESS);

@@ -45,6 +45,9 @@ public class GetCommand extends Command {
             }
             driver.get(url);
             CommandExecuteResult result = new CommandExecuteResult();
+
+            result.setCommand(this);
+            
             result.setResult(CommandExecuteResultType.SUCCESS);
             return result;
         }catch(Exception e) {

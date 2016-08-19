@@ -13,6 +13,9 @@ public class ShownAssertCommand extends AssertCommand {
     @Override
     public CommandExecuteResult execute(WebDriver driver) {
         CommandExecuteResult result = new CommandExecuteResult();
+
+        result.setCommand(this);
+        
         try {
             WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));
 

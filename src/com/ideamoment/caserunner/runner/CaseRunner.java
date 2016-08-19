@@ -4,6 +4,7 @@
 package com.ideamoment.caserunner.runner;
 
 import com.ideamoment.caserunner.model.Case;
+import com.ideamoment.caserunner.model.CaseExecuteResult;
 import com.ideamoment.caserunner.model.Env;
 
 /**
@@ -11,5 +12,5 @@ import com.ideamoment.caserunner.model.Env;
  *
  */
 public interface CaseRunner {
-    public void run(Env env, Case caze);
+    public CaseExecuteResult run(Env env, Case caze);
 }

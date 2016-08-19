@@ -55,6 +55,8 @@ public class BinaryAssertCommand extends AssertCommand{
     public CommandExecuteResult execute(WebDriver driver) {
         CommandExecuteResult result = new CommandExecuteResult();
 
+        result.setCommand(this);
+        
         try {
             BinaryPartStatement left = this.getLeft();
             BinaryPartStatement right = this.getRight();
@@ -92,9 +94,9 @@ public class BinaryAssertCommand extends AssertCommand{
                 }
             }
             if(binResult) {
-                result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.SUCCESS);
+                result.setResult(CommandExecuteResultType.SUCCESS);
             }else{
-                result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.FAILED);
+                result.setResult(CommandExecuteResultType.FAILED);
             }
             return result;
         }catch(NoSuchElementException ex) {

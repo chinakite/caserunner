@@ -16,9 +16,11 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
 
     protected WebDriver driver;
 
-    public void run(Env env, Case caze) {
+    public CaseExecuteResult run(Env env, Case caze) {
         driver = env.getWebDriver();
 
+        CaseExecuteResult cazeExecuteResult = new CaseExecuteResult();
+        
         List<Command> commands = caze.getCommands();
         for(Command command : commands) {
             if(command.getType() == CommandType.GET
@@ -29,9 +31,10 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
                 CommandExecuteResult result = command.execute(driver);
                 if(this.resultHandlers != null) {
                     for(RunResultHandler handler : this.resultHandlers) {
-                        handler.handle(command, result);
+                        handler.handleCommandResult(command, result);
                     }
                 }
+                cazeExecuteResult.addCommandResult(result);
                 if(result != null && result.getResult() == CommandExecuteResultType.SUCCESS) {
                     System.out.println("YES");
                 }else{
@@ -42,5 +45,13 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
                 }
             }
         }
+        
+        if(this.resultHandlers != null) {
+            for(RunResultHandler handler : this.resultHandlers) {
+                handler.handleCaseResult(caze, cazeExecuteResult);
+            }
+        }
+        
+        return cazeExecuteResult;
     }
 }
