@@ -11,9 +11,7 @@ import org.openqa.selenium.WebElement;
 public class ShownAssertCommand extends AssertCommand {
 
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
-        CommandExecuteResult result = new CommandExecuteResult();
-
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         result.setCommand(this);
         
         try {

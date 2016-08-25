@@ -38,13 +38,12 @@ public class GetCommand extends Command {
     }
 
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         try{
             if(this.timeout > 0) {
                 driver.manage().timeouts().pageLoadTimeout(this.timeout, TimeUnit.MILLISECONDS);
             }
             driver.get(url);
-            CommandExecuteResult result = new CommandExecuteResult();
 
             result.setCommand(this);
             
@@ -52,7 +51,6 @@ public class GetCommand extends Command {
             return result;
         }catch(Exception e) {
             e.printStackTrace();
-            CommandExecuteResult result = new CommandExecuteResult();
             result.setResult(CommandExecuteResultType.FAILED);
             return result;
         }

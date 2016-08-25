@@ -38,9 +38,7 @@ public class InputCommand extends Command {
     }
 
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
-        CommandExecuteResult result = new CommandExecuteResult();
-
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         result.setCommand(this);
         
         try {

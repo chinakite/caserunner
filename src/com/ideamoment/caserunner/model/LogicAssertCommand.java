@@ -39,9 +39,7 @@ public class LogicAssertCommand extends AssertCommand{
     }
 
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
-        CommandExecuteResult result = new CommandExecuteResult();
-
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         result.setCommand(this);
         
         try {
@@ -104,7 +102,7 @@ public class LogicAssertCommand extends AssertCommand{
 
             return result;
         }catch(NoSuchElementException ex) {
-            result.setResult(CommandExecuteResultType.FAILED);
+            result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.FAILED);
             return result;
         }
     }

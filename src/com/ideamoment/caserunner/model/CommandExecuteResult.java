@@ -1,5 +1,7 @@
 package com.ideamoment.caserunner.model;
 
+import java.util.Date;
+
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 
 /**
@@ -14,6 +16,10 @@ public class CommandExecuteResult {
     private CommandExecuteResultType result;
 
     private String message;
+    
+    private Date startTime;
+    
+    private Date endTime;
 
     public Command getCommand() {
 		return command;
@@ -46,4 +52,21 @@ public class CommandExecuteResult {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+    
 }

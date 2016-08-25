@@ -1,13 +1,19 @@
 package com.ideamoment.caserunner.runner;
 
-import com.ideamoment.caserunner.model.*;
+import java.util.Date;
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+
+import com.ideamoment.caserunner.model.Case;
+import com.ideamoment.caserunner.model.CaseExecuteResult;
+import com.ideamoment.caserunner.model.Command;
+import com.ideamoment.caserunner.model.CommandExecuteResult;
+import com.ideamoment.caserunner.model.Env;
 import com.ideamoment.caserunner.model.dict.CommandBlockType;
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.result.RunResultHandler;
-import org.openqa.selenium.WebDriver;
-
-import java.util.List;
 
 /**
  * Created by zhangzhonghua on 2016/6/1.
@@ -20,6 +26,8 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
         driver = env.getWebDriver();
 
         CaseExecuteResult cazeExecuteResult = new CaseExecuteResult();
+        
+        cazeExecuteResult.setStartTime(new Date());
         
         List<Command> commands = caze.getCommands();
         for(Command command : commands) {
@@ -45,6 +53,8 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
                 }
             }
         }
+        
+        cazeExecuteResult.setEndTime(new Date());
         
         if(this.resultHandlers != null) {
             for(RunResultHandler handler : this.resultHandlers) {

@@ -4,6 +4,7 @@
 package com.ideamoment.caserunner.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
@@ -16,6 +17,10 @@ public class CaseExecuteResult {
 	
 	private Case caze;
 	
+	private Date startTime;
+	
+	private Date endTime;
+	
 	private List<CommandExecuteResult> commandResults = new ArrayList<CommandExecuteResult>();
 
 	public Case getCaze() {
@@ -24,6 +29,22 @@ public class CaseExecuteResult {
 
 	public void setCaze(Case caze) {
 		this.caze = caze;
+	}
+	
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	public List<CommandExecuteResult> getCommandResults() {

@@ -66,9 +66,7 @@ public class ClickCommand extends Command {
      * @see com.ideamoment.caserunner.model.Command#execute(org.openqa.selenium.WebDriver)
      */
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
-        CommandExecuteResult result = new CommandExecuteResult();
-        
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         result.setCommand(this);
         
         try {

@@ -111,6 +111,7 @@ public class Env {
             }
         }else{
             if(BrowserType.CHROME == browser) {
+                System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
                 desiredCap = DesiredCapabilities.chrome();
             }
             

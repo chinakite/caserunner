@@ -52,9 +52,7 @@ public class BinaryAssertCommand extends AssertCommand{
     }
 
     @Override
-    public CommandExecuteResult execute(WebDriver driver) {
-        CommandExecuteResult result = new CommandExecuteResult();
-
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
         result.setCommand(this);
         
         try {
@@ -94,9 +92,9 @@ public class BinaryAssertCommand extends AssertCommand{
                 }
             }
             if(binResult) {
-                result.setResult(CommandExecuteResultType.SUCCESS);
+                result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.SUCCESS);
             }else{
-                result.setResult(CommandExecuteResultType.FAILED);
+                result.setResult(com.ideamoment.caserunner.model.dict.CommandExecuteResultType.FAILED);
             }
             return result;
         }catch(NoSuchElementException ex) {
