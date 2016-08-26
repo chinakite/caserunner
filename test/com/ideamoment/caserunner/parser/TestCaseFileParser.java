@@ -132,4 +132,33 @@ public class TestCaseFileParser {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testInputParse() {
+        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
+        try {
+            FileInputStream source = new FileInputStream(file);
+            CaseFileParser parser = new CaseFileParser();
+            CaseFile casefile = parser.parse(source);
+
+            Map<String, Case> cases = casefile.getCases();
+
+            Case inputCase = cases.get("inputSth");
+            List<Command> inputCommands = inputCase.getCommands();
+            assertEquals(4, inputCommands.size());
+
+            {
+                Command command0 = inputCommands.get(0);
+                assertTrue(command0 instanceof InputCommand);
+                InputCommand inputCommand0 = (InputCommand)command0;
+                assertEquals("aaabbbccc", inputCommand0.getValue());
+                assertEquals("#freename", inputCommand0.getTarget());
+            }
+
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

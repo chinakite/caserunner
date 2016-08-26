@@ -97,11 +97,39 @@ clickStatement
     ;
 
 inputValue
-    :   INPUT StringLiteral
+    :   INPUT dataParameterizeStatement('.'dataParameterizeStatement)*
+    |   INPUT StringLiteral
     ;
 
 inputTo
     :   TO StringLiteral
+    ;
+
+dataParameterizeStatement
+    :   dataMethodStatement
+    |   dataPropertyStatement
+    ;
+
+dataMethodStatement
+    :   D_RAND'('dataMethodParam1','dataMethodParam2')'
+    |   D_SEQ'('dataMethodParam1','dataMethodParam2')'
+    |   D_UNIQUE'('dataMethodParam1','dataMethodParam2')'
+    |   D_RAND'('dataMethodParam1')'
+    |   D_SEQ'('dataMethodParam1')'
+    |   D_UNIQUE'('dataMethodParam1')'
+    |   D_REF'('dataMethodParam1')'
+    ;
+
+dataPropertyStatement
+    :   ID
+    ;
+
+dataMethodParam1
+    :   StringLiteral
+    ;
+
+dataMethodParam2
+    :   StringLiteral
     ;
 
 conditionStatament
@@ -168,6 +196,11 @@ M_CSS               : 'css';
 M_TEXT              : 'text';
 M_ATTR              : 'attr';
 M_VAL               : 'val';
+
+D_RAND              : '$rand';
+D_SEQ               : '$seq';
+D_UNIQUE            : '$unique';
+D_REF               : '$ref';
 
 fragment
 HexDigits

@@ -188,6 +188,56 @@ public interface IdeaCaseListener extends ParseTreeListener {
 	 */
 	void exitInputTo(IdeaCaseParser.InputToContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dataParameterizeStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataParameterizeStatement(IdeaCaseParser.DataParameterizeStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dataParameterizeStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataParameterizeStatement(IdeaCaseParser.DataParameterizeStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dataMethodStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataMethodStatement(IdeaCaseParser.DataMethodStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dataMethodStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataMethodStatement(IdeaCaseParser.DataMethodStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dataPropertyStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataPropertyStatement(IdeaCaseParser.DataPropertyStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dataPropertyStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataPropertyStatement(IdeaCaseParser.DataPropertyStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dataMethodParam1}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataMethodParam1(IdeaCaseParser.DataMethodParam1Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dataMethodParam1}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataMethodParam1(IdeaCaseParser.DataMethodParam1Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link IdeaCaseParser#dataMethodParam2}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataMethodParam2(IdeaCaseParser.DataMethodParam2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link IdeaCaseParser#dataMethodParam2}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataMethodParam2(IdeaCaseParser.DataMethodParam2Context ctx);
+	/**
 	 * Enter a parse tree produced by {@link IdeaCaseParser#conditionStatament}.
 	 * @param ctx the parse tree
 	 */

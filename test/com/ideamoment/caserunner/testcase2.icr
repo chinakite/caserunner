@@ -12,8 +12,16 @@ case login {
     assert "#freename" exists;
     assert "#freepassword" exists;
 
-    input "dafadsfasdfew" to "#freename";
-    input "yurythgkhg" to "#freepassword";
+    input "dfasdfasdf" to "#freename";
+    input "w3k;4ukdlkadf" to "#freepassword";
+    input $rand("user", "user1").name to "#freename";
+    input $ref("user1").password to "#freepassword";
+    input $seq("user", "user2").name to "#freename";
+    input $ref("user2").password to "#freepassword";
+    input $unique("user", "user3").name to "#freename";
+    input $ref("user3").password to "#freepassword";
+    input $unique("user", "user4").$rand("address", "user4_address1") to "#freename";
+    input $ref("user3").password to "#freepassword";
     click ".loginBtn";
     assert ".freeError" shown;
     assert ".freeError .tip11" shown;
@@ -35,6 +43,13 @@ case assertResult {
     assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" shown;
     assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" exists;
     assert ".freeError .tip11".css("color") = "#e32929" || ".freeError .tip11".val() = 123;
+}
+
+case inputSth {
+    input "aaabbbccc" to "#freename";
+    input $seq("user", "user2").name to "#freename";
+    input $unique("user", "user4").$rand("address", "user4_address1") to "#freename";
+    input $ref("user3").password to "#freepassword";
 }
 
 case writeEmail depend login {

@@ -10,6 +10,7 @@ import com.ideamoment.caserunner.model.*;
 import com.ideamoment.caserunner.model.condition.*;
 import com.ideamoment.caserunner.model.dict.*;
 import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.model.parameterize.*;
 import com.ideamoment.caserunner.result.RunResultHandler;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -434,24 +435,101 @@ public class CaseFileParser {
                                    IdeaCaseParser.CommandStatementContext commandCtx) {
         InputCommand inputCommand = new InputCommand();
         IdeaCaseParser.InputStatementContext inputCommandCtx = commandCtx.inputStatement();
-        IdeaCaseParser.InputValueContext inputValueCtx = inputCommandCtx.inputValue();
-        TerminalNode inputValueNode = inputValueCtx.StringLiteral();
-        String inputValue = inputValueNode.getText();
+
         IdeaCaseParser.InputToContext inputToCtx = inputCommandCtx.inputTo();
         TerminalNode inputTargetNode = inputToCtx.StringLiteral();
         String inputTarget = inputTargetNode.getText();
-        if(inputValue != null && inputTarget != null) {
-            String value = StringUtils.extractRealString(inputValue);
+        if(inputTarget != null) {
             String target = StringUtils.extractRealString(inputTarget);
             if(target != null) {
                 inputCommand.setTarget(target);
             }else{
                 throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command param is null.");
             }
-            if(target != null) {
-                inputCommand.setValue(value);
-            }else{
-                throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command value is null.");
+        }
+
+        IdeaCaseParser.InputValueContext inputValueCtx = inputCommandCtx.inputValue();
+        List<IdeaCaseParser.DataParameterizeStatementContext> dataParamCtxList = inputValueCtx.dataParameterizeStatement();
+        TerminalNode inputValueNode = inputValueCtx.StringLiteral();
+        if(dataParamCtxList != null && dataParamCtxList.size() > 0) {
+            for(IdeaCaseParser.DataParameterizeStatementContext dataParamCtx : dataParamCtxList) {
+                IdeaCaseParser.DataMethodStatementContext dataMethodCtx = dataParamCtx.dataMethodStatement();
+                IdeaCaseParser.DataPropertyStatementContext dataPropCtx = dataParamCtx.dataPropertyStatement();
+                if(dataMethodCtx != null) {
+                    TerminalNode randMethodNode = dataMethodCtx.D_RAND();
+                    TerminalNode seqMethodNode = dataMethodCtx.D_SEQ();
+                    TerminalNode uniqueMethodNode = dataMethodCtx.D_UNIQUE();
+                    TerminalNode refMethodNode = dataMethodCtx.D_REF();
+                    if(randMethodNode != null) {
+                        RandomMethod randMethod = new RandomMethod();
+                        IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
+                        TerminalNode param1Node = param1Ctx.StringLiteral();
+                        if(param1Node != null) {
+                            randMethod.setInputParam1(param1Node.getText());
+                        }
+                        IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
+                        TerminalNode param2Node = param2Ctx.StringLiteral();
+                        if(param2Node != null) {
+                            randMethod.setInputParam2(param2Node.getText());
+                        }
+
+                        inputCommand.addParamMethod(randMethod);
+                    }else if(seqMethodNode != null) {
+                        SequenceMethod seqMethod = new SequenceMethod();
+                        IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
+                        TerminalNode param1Node = param1Ctx.StringLiteral();
+                        if(param1Node != null) {
+                            seqMethod.setInputParam1(param1Node.getText());
+                        }
+                        IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
+                        TerminalNode param2Node = param2Ctx.StringLiteral();
+                        if(param2Node != null) {
+                            seqMethod.setInputParam2(param2Node.getText());
+                        }
+
+                        inputCommand.addParamMethod(seqMethod);
+                    }else if(uniqueMethodNode != null) {
+                        UniqueMethod uniqueMethod = new UniqueMethod();
+                        IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
+                        TerminalNode param1Node = param1Ctx.StringLiteral();
+                        if(param1Node != null) {
+                            uniqueMethod.setInputParam1(param1Node.getText());
+                        }
+                        IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
+                        TerminalNode param2Node = param2Ctx.StringLiteral();
+                        if(param2Node != null) {
+                            uniqueMethod.setInputParam2(param2Node.getText());
+                        }
+
+                        inputCommand.addParamMethod(uniqueMethod);
+                    }else if(refMethodNode != null) {
+                        ReferenceMethod refMethod = new ReferenceMethod();
+                        IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
+                        TerminalNode param1Node = param1Ctx.StringLiteral();
+                        if(param1Node != null) {
+                            refMethod.setInputParam1(param1Node.getText());
+                        }
+
+                        inputCommand.addParamMethod(refMethod);
+                    }
+                }else if(dataPropCtx != null) {
+                    TerminalNode propNameCtx = dataPropCtx.ID();
+                    String propName = propNameCtx.getText();
+                    PropertyMethod propMethod = new PropertyMethod();
+                    propMethod.setInputParam1(propName);
+
+                    inputCommand.addParamMethod(propMethod);
+                }
+            }
+        }else if(inputValueNode != null) {
+            String inputValue = inputValueNode.getText();
+            if(inputValue != null) {
+                String value = StringUtils.extractRealString(inputValue);
+                if(inputCommand.getTarget() != null) {
+                    inputCommand.setValue(value);
+                }else{
+                    throw new IdeaCaseFileParserException(IdeaCaseFileParserExceptionCode.SYNTAX_ERROR, "Input command value is null.");
+                }
             }
         }
 

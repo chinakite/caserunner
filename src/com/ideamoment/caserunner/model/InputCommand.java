@@ -2,10 +2,14 @@ package com.ideamoment.caserunner.model;
 
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.model.parameterize.ParamMethod;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhangzhonghua on 2016/6/13.
@@ -13,6 +17,8 @@ import org.openqa.selenium.WebElement;
 public class InputCommand extends Command {
 
     private String value;
+
+    private List<ParamMethod> paramMethods = new ArrayList<ParamMethod>();
 
     private String target;
 
@@ -51,5 +57,17 @@ public class InputCommand extends Command {
             result.setResult(CommandExecuteResultType.FAILED);
             return result;
         }
+    }
+
+    public List<ParamMethod> getParamMethods() {
+        return paramMethods;
+    }
+
+    public void setParamMethods(List<ParamMethod> paramMethods) {
+        this.paramMethods = paramMethods;
+    }
+
+    public void addParamMethod(ParamMethod paramMethod) {
+        this.paramMethods.add(paramMethod);
     }
 }
