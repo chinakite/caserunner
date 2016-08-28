@@ -1,6 +1,8 @@
 package com.ideamoment.caserunner.model;
 
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +14,7 @@ import org.openqa.selenium.WebElement;
 public class ExistsAssertCommand extends AssertCommand {
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {

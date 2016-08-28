@@ -4,6 +4,8 @@ import com.ideamoment.caserunner.CaseRunnerException;
 import com.ideamoment.caserunner.CaseRunnerExceptionCode;
 import com.ideamoment.caserunner.model.dict.*;
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
@@ -39,7 +41,7 @@ public class LogicAssertCommand extends AssertCommand{
     }
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {
@@ -57,20 +59,20 @@ public class LogicAssertCommand extends AssertCommand{
 
             CommandExecuteResult leftResult = null;
             if(leftAssertCommand instanceof ExistsAssertCommand){
-                leftResult = ((ExistsAssertCommand)leftAssertCommand).execute(driver);
+                leftResult = ((ExistsAssertCommand)leftAssertCommand).execute(driver, context);
             }else if(leftAssertCommand instanceof ShownAssertCommand){
-                leftResult = ((ShownAssertCommand)leftAssertCommand).execute(driver);
+                leftResult = ((ShownAssertCommand)leftAssertCommand).execute(driver, context);
             }else if(leftAssertCommand instanceof BinaryAssertCommand) {
-                leftResult = ((BinaryAssertCommand)leftAssertCommand).execute(driver);
+                leftResult = ((BinaryAssertCommand)leftAssertCommand).execute(driver, context);
             }
 
             CommandExecuteResult rightResult = null;
             if(rightAssertCommand instanceof ExistsAssertCommand){
-                rightResult = ((ExistsAssertCommand)rightAssertCommand).execute(driver);
+                rightResult = ((ExistsAssertCommand)rightAssertCommand).execute(driver, context);
             }else if(leftAssertCommand instanceof ShownAssertCommand){
-                rightResult = ((ShownAssertCommand)rightAssertCommand).execute(driver);
+                rightResult = ((ShownAssertCommand)rightAssertCommand).execute(driver, context);
             }else if(leftAssertCommand instanceof BinaryAssertCommand) {
-                rightResult = ((BinaryAssertCommand)rightAssertCommand).execute(driver);
+                rightResult = ((BinaryAssertCommand)rightAssertCommand).execute(driver, context);
             }
 
             CommandExecuteResultType leftResultType = leftResult.getResult();

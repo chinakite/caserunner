@@ -3,6 +3,8 @@ package com.ideamoment.caserunner.model;
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.model.dict.ModelConstants;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.WebDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -38,7 +40,7 @@ public class GetCommand extends Command {
     }
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         try{
             if(this.timeout > 0) {
                 driver.manage().timeouts().pageLoadTimeout(this.timeout, TimeUnit.MILLISECONDS);

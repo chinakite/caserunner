@@ -5,13 +5,15 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.ideamoment.caserunner.runner.RunContext;
+
 /**
  * Created by zhangzhonghua on 2016/7/25.
  */
 public class ShownAssertCommand extends AssertCommand {
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {

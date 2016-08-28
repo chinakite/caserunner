@@ -1,11 +1,8 @@
 package com.ideamoment.caserunner.parser;
 
-import com.ideamoment.caserunner.model.*;
-import com.ideamoment.caserunner.model.dict.BinaryOp;
-import com.ideamoment.caserunner.model.dict.BinaryPartType;
-import com.ideamoment.caserunner.model.dict.LogicConditionType;
-import com.ideamoment.caserunner.model.dict.MethodType;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,9 +10,29 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+import com.ideamoment.caserunner.model.BinaryAssertCommand;
+import com.ideamoment.caserunner.model.BinaryPartStatement;
+import com.ideamoment.caserunner.model.Case;
+import com.ideamoment.caserunner.model.CaseFile;
+import com.ideamoment.caserunner.model.Command;
+import com.ideamoment.caserunner.model.ExistsAssertCommand;
+import com.ideamoment.caserunner.model.GetCommand;
+import com.ideamoment.caserunner.model.InputCommand;
+import com.ideamoment.caserunner.model.LogicAssertCommand;
+import com.ideamoment.caserunner.model.ShownAssertCommand;
+import com.ideamoment.caserunner.model.ValueMethod;
+import com.ideamoment.caserunner.model.dict.BinaryOp;
+import com.ideamoment.caserunner.model.dict.BinaryPartType;
+import com.ideamoment.caserunner.model.dict.LogicConditionType;
+import com.ideamoment.caserunner.model.dict.MethodType;
+import com.ideamoment.caserunner.model.parameterize.ParamValueType;
+import com.ideamoment.caserunner.model.parameterize.PropertyMethod;
+import com.ideamoment.caserunner.model.parameterize.RandomMethod;
+import com.ideamoment.caserunner.model.parameterize.ReferenceMethod;
+import com.ideamoment.caserunner.model.parameterize.SequenceMethod;
+import com.ideamoment.caserunner.model.parameterize.UniqueMethod;
 
 /**
  * Created by zhangzhonghua on 2016/6/6.
@@ -135,7 +152,8 @@ public class TestCaseFileParser {
 
     @Test
     public void testInputParse() {
-        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
+//        File file = new File("D:\\gitrepos\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
+        File file = new File("E:\\iWorkspace\\java\\caserunner\\test\\com\\ideamoment\\caserunner\\testcase2.icr");
         try {
             FileInputStream source = new FileInputStream(file);
             CaseFileParser parser = new CaseFileParser();
@@ -155,7 +173,41 @@ public class TestCaseFileParser {
                 assertEquals("#freename", inputCommand0.getTarget());
             }
 
-
+            {
+                Command command1 = inputCommands.get(1);
+                assertTrue(command1 instanceof InputCommand);
+                InputCommand inputCommand1 = (InputCommand)command1;
+                assertEquals(2, inputCommand1.getParamMethods().size());
+                assertEquals(ParamValueType.SEQ, ((SequenceMethod)inputCommand1.getParamMethods().get(0)).getType());
+                assertEquals("user", ((SequenceMethod)inputCommand1.getParamMethods().get(0)).getDataName());
+                assertEquals("user2", ((SequenceMethod)inputCommand1.getParamMethods().get(0)).getAliasName());
+                assertEquals(ParamValueType.PROP, ((PropertyMethod)inputCommand1.getParamMethods().get(1)).getType());
+                assertEquals("name", ((PropertyMethod)inputCommand1.getParamMethods().get(1)).getInputParam1());
+            }
+            
+            {
+                Command command2 = inputCommands.get(2);
+                assertTrue(command2 instanceof InputCommand);
+                InputCommand inputCommand2 = (InputCommand)command2;
+                assertEquals(2, inputCommand2.getParamMethods().size());
+                assertEquals(ParamValueType.UNIQUE, ((UniqueMethod)inputCommand2.getParamMethods().get(0)).getType());
+                assertEquals("user", ((UniqueMethod)inputCommand2.getParamMethods().get(0)).getDataName());
+                assertEquals("user4", ((UniqueMethod)inputCommand2.getParamMethods().get(0)).getAliasName());
+                assertEquals(ParamValueType.RAND, ((RandomMethod)inputCommand2.getParamMethods().get(1)).getType());
+                assertEquals("address", ((RandomMethod)inputCommand2.getParamMethods().get(1)).getInputParam1());
+                assertEquals("user4_address1", ((RandomMethod)inputCommand2.getParamMethods().get(1)).getInputParam2());
+            }
+            
+            {
+                Command command3 = inputCommands.get(3);
+                assertTrue(command3 instanceof InputCommand);
+                InputCommand inputCommand3 = (InputCommand)command3;
+                assertEquals(2, inputCommand3.getParamMethods().size());
+                assertEquals(ParamValueType.REF, ((ReferenceMethod)inputCommand3.getParamMethods().get(0)).getType());
+                assertEquals("user3", ((ReferenceMethod)inputCommand3.getParamMethods().get(0)).getInputParam1());
+                assertEquals(ParamValueType.PROP, ((PropertyMethod)inputCommand3.getParamMethods().get(1)).getType());
+                assertEquals("password", ((PropertyMethod)inputCommand3.getParamMethods().get(1)).getInputParam1());
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -30,11 +30,13 @@ public class TestCaseRunner {
             env.setType(EnvType.LOCAL);
             env.setBrowser(BrowserType.CHROME);
 
+            RunContext context = new MemoryRunContext();
+            
             DefaultCaseRunner runner = new DefaultCaseRunner();
             Map<String, Case> cases = casefile.getCases();
-            runner.run(env, cases.get("openLoginPage"));
-            runner.run(env, cases.get("login"));
-            runner.run(env, cases.get("writeEmail"));
+            runner.run(env, cases.get("openLoginPage"), context);
+            runner.run(env, cases.get("login"), context);
+            runner.run(env, cases.get("writeEmail"), context);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -3,6 +3,8 @@ package com.ideamoment.caserunner.model;
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
 import com.ideamoment.caserunner.model.parameterize.ParamMethod;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -44,10 +46,14 @@ public class InputCommand extends Command {
     }
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {
+        	if(paramMethods != null && paramMethods.size() > 0) {
+        		String value = context.resolveValue(paramMethods);
+        	}
+        	
             WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));
             webElement.sendKeys(this.getValue());
 

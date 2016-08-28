@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.ideamoment.caserunner.model.dict.CommandBlockType;
 import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.runner.RunContext;
 
 /**
  * Created by zhangzhonghua on 2016/6/1.
@@ -28,15 +29,15 @@ public abstract class Command {
         this.type = type;
     }
     
-    public CommandExecuteResult execute(WebDriver driver) {
+    public CommandExecuteResult execute(WebDriver driver, RunContext context) {
     	CommandExecuteResult result = new CommandExecuteResult();
     	result.setStartTime(new Date());
-    	result = doExecute(driver, result);
+    	result = doExecute(driver, result, context);
     	result.setEndTime(new Date());
     	return result;
     }
 
-    public abstract CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result);
+    public abstract CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context);
 
     /**
      * @return the startLine

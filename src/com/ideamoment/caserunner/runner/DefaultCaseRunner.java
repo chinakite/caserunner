@@ -22,7 +22,7 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
 
     protected WebDriver driver;
 
-    public CaseExecuteResult run(Env env, Case caze) {
+    public CaseExecuteResult run(Env env, Case caze, RunContext context) {
         driver = env.getWebDriver();
 
         CaseExecuteResult cazeExecuteResult = new CaseExecuteResult();
@@ -36,7 +36,7 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
                     || command.getType() == CommandType.INPUT
                     || command.getType() == CommandType.CLICK
                     || command.getType() == CommandType.WAIT) {
-                CommandExecuteResult result = command.execute(driver);
+                CommandExecuteResult result = command.execute(driver, context);
                 if(this.resultHandlers != null) {
                     for(RunResultHandler handler : this.resultHandlers) {
                         handler.handleCommandResult(command, result);

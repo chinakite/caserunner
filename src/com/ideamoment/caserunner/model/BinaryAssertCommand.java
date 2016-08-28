@@ -1,15 +1,19 @@
 package com.ideamoment.caserunner.model;
 
-import com.ideamoment.caserunner.model.dict.*;
-import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
-import com.ideamoment.caserunner.model.dict.CommandType;
-import com.ideamoment.caserunner.util.NumericUtils;
+import java.math.BigDecimal;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.math.BigDecimal;
+import com.ideamoment.caserunner.model.dict.BinaryOp;
+import com.ideamoment.caserunner.model.dict.BinaryPartType;
+import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
+import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.model.dict.MethodType;
+import com.ideamoment.caserunner.runner.RunContext;
+import com.ideamoment.caserunner.util.NumericUtils;
 
 /**
  * Created by zhangzhonghua on 2016/7/25.
@@ -52,7 +56,7 @@ public class BinaryAssertCommand extends AssertCommand{
     }
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {

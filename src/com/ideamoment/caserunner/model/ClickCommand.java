@@ -7,6 +7,8 @@ import com.ideamoment.caserunner.model.condition.ExistsCondition;
 import com.ideamoment.caserunner.model.condition.ShownCondition;
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -66,7 +68,7 @@ public class ClickCommand extends Command {
      * @see com.ideamoment.caserunner.model.Command#execute(org.openqa.selenium.WebDriver)
      */
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {

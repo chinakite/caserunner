@@ -2,6 +2,8 @@ package com.ideamoment.caserunner.model;
 
 import com.ideamoment.caserunner.model.dict.CommandExecuteResultType;
 import com.ideamoment.caserunner.model.dict.CommandType;
+import com.ideamoment.caserunner.runner.RunContext;
+
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -44,7 +46,7 @@ public class WaitCommand extends Command {
     }
 
     @Override
-    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result) {
+    public CommandExecuteResult doExecute(WebDriver driver, CommandExecuteResult result, RunContext context) {
         result.setCommand(this);
         
         try {

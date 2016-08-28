@@ -465,12 +465,12 @@ public class CaseFileParser {
                         IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
                         TerminalNode param1Node = param1Ctx.StringLiteral();
                         if(param1Node != null) {
-                            randMethod.setInputParam1(param1Node.getText());
+                            randMethod.setInputParam1(StringUtils.extractRealString(param1Node.getText()));
                         }
                         IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
                         TerminalNode param2Node = param2Ctx.StringLiteral();
                         if(param2Node != null) {
-                            randMethod.setInputParam2(param2Node.getText());
+                            randMethod.setInputParam2(StringUtils.extractRealString(param2Node.getText()));
                         }
 
                         inputCommand.addParamMethod(randMethod);
@@ -479,12 +479,12 @@ public class CaseFileParser {
                         IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
                         TerminalNode param1Node = param1Ctx.StringLiteral();
                         if(param1Node != null) {
-                            seqMethod.setInputParam1(param1Node.getText());
+                            seqMethod.setInputParam1(StringUtils.extractRealString(param1Node.getText()));
                         }
                         IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
                         TerminalNode param2Node = param2Ctx.StringLiteral();
                         if(param2Node != null) {
-                            seqMethod.setInputParam2(param2Node.getText());
+                            seqMethod.setInputParam2(StringUtils.extractRealString(param2Node.getText()));
                         }
 
                         inputCommand.addParamMethod(seqMethod);
@@ -493,12 +493,12 @@ public class CaseFileParser {
                         IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
                         TerminalNode param1Node = param1Ctx.StringLiteral();
                         if(param1Node != null) {
-                            uniqueMethod.setInputParam1(param1Node.getText());
+                            uniqueMethod.setInputParam1(StringUtils.extractRealString(param1Node.getText()));
                         }
                         IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
                         TerminalNode param2Node = param2Ctx.StringLiteral();
                         if(param2Node != null) {
-                            uniqueMethod.setInputParam2(param2Node.getText());
+                            uniqueMethod.setInputParam2(StringUtils.extractRealString(param2Node.getText()));
                         }
 
                         inputCommand.addParamMethod(uniqueMethod);
@@ -507,7 +507,7 @@ public class CaseFileParser {
                         IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
                         TerminalNode param1Node = param1Ctx.StringLiteral();
                         if(param1Node != null) {
-                            refMethod.setInputParam1(param1Node.getText());
+                            refMethod.setInputParam1(StringUtils.extractRealString(param1Node.getText()));
                         }
 
                         inputCommand.addParamMethod(refMethod);
