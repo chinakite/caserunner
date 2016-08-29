@@ -1,5 +1,6 @@
 package com.ideamoment.caserunner.util;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,5 +43,18 @@ public class NumericUtils {
 
     public static boolean isNumeric(String orginal){
         return isWholeNumber(orginal) || isDecimal(orginal);
+    }
+
+    /**
+     * 返回随机数
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int randomNum(int min, int max) {
+        Random random = new Random();
+        int r = random.nextInt(max)%(max-min+1) + min;
+        return r;
     }
 }

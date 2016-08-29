@@ -23,5 +23,6 @@
     <orderEntry type="library" name="junit-4.6" level="project" />
     <orderEntry type="library" name="selenium-server-standalone-2.53.0" level="project" />
     <orderEntry type="library" name="ideaconfig-0.1" level="project" />
+    <orderEntry type="library" name="commons-beanutils-1.9.2" level="project" />
   </component>
 </module>

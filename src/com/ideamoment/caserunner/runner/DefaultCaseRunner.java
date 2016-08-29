@@ -3,6 +3,7 @@ package com.ideamoment.caserunner.runner;
 import java.util.Date;
 import java.util.List;
 
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory;
 import org.openqa.selenium.WebDriver;
 
 import com.ideamoment.caserunner.model.Case;
@@ -22,7 +23,11 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
 
     protected WebDriver driver;
 
-    public CaseExecuteResult run(Env env, Case caze, RunContext context) {
+    public DefaultCaseRunner(RunContext context) {
+        this.runContext = context;
+    }
+
+    public CaseExecuteResult run(Env env, Case caze) {
         driver = env.getWebDriver();
 
         CaseExecuteResult cazeExecuteResult = new CaseExecuteResult();
@@ -36,7 +41,7 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
                     || command.getType() == CommandType.INPUT
                     || command.getType() == CommandType.CLICK
                     || command.getType() == CommandType.WAIT) {
-                CommandExecuteResult result = command.execute(driver, context);
+                CommandExecuteResult result = command.execute(driver, this.getRunContext());
                 if(this.resultHandlers != null) {
                     for(RunResultHandler handler : this.resultHandlers) {
                         handler.handleCommandResult(command, result);
@@ -64,4 +69,5 @@ public class DefaultCaseRunner extends AbstractCaseRunner implements CaseRunner 
         
         return cazeExecuteResult;
     }
+
 }

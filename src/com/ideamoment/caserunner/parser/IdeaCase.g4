@@ -118,6 +118,8 @@ dataMethodStatement
     |   D_SEQ'('dataMethodParam1')'
     |   D_UNIQUE'('dataMethodParam1')'
     |   D_REF'('dataMethodParam1')'
+    |   D_PROP'('dataMethodParam1','dataMethodParam2')'
+    |   D_PROP'('dataMethodParam1')'
     ;
 
 dataPropertyStatement
@@ -201,6 +203,7 @@ D_RAND              : '$rand';
 D_SEQ               : '$seq';
 D_UNIQUE            : '$unique';
 D_REF               : '$ref';
+D_PROP              : '$prop';
 
 fragment
 HexDigits

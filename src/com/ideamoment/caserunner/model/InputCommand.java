@@ -50,12 +50,16 @@ public class InputCommand extends Command {
         result.setCommand(this);
         
         try {
-        	if(paramMethods != null && paramMethods.size() > 0) {
-        		String value = context.resolveValue(paramMethods);
-        	}
-        	
             WebElement webElement = driver.findElement(By.cssSelector(this.getTarget()));
-            webElement.sendKeys(this.getValue());
+
+            String inputValue = null;
+            if(paramMethods != null && paramMethods.size() > 0) {
+                inputValue = context.resolveValue(paramMethods);
+        	}else{
+                inputValue = this.getValue();
+            }
+
+            webElement.sendKeys(inputValue);
 
             result.setResult(CommandExecuteResultType.SUCCESS);
             return result;

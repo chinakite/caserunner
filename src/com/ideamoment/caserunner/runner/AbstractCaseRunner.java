@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class AbstractCaseRunner {
 
+    protected RunContext runContext;
+
     protected List<RunResultHandler> resultHandlers = new ArrayList<RunResultHandler>();
 
     public boolean addResultHandler(RunResultHandler handler) {
@@ -36,5 +38,13 @@ public class AbstractCaseRunner {
                 handler.handleCommandResult(command, result);
             }
         }
+    }
+
+    public void setRunContext(RunContext runContext) {
+        this.runContext = runContext;
+    }
+
+    public RunContext getRunContext() {
+        return this.runContext;
     }
 }

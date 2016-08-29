@@ -5,33 +5,14 @@ group sinamail {
 case openLoginPage {
     get "http://mail.sina.com.cn" timeout 5000;
     wait 2000;
-    click "#sinaadToolkitBox0 .sinaads-float-close" when "#sinaadToolkitBox0 a" shown;
+    //click "#sinaadToolkitBox0 .sinaads-float-close" when "#sinaadToolkitBox0 a" shown;
 }
 
 case login {    
     assert "#freename" exists;
     assert "#freepassword" exists;
-
-    input "dfasdfasdf" to "#freename";
-    input "w3k;4ukdlkadf" to "#freepassword";
-    input $rand("user", "user1").name to "#freename";
+    input $seq("user", "user1").username to "#freename";
     input $ref("user1").password to "#freepassword";
-    input $seq("user", "user2").name to "#freename";
-    input $ref("user2").password to "#freepassword";
-    input $unique("user", "user3").name to "#freename";
-    input $ref("user3").password to "#freepassword";
-    input $unique("user", "user4").$rand("address", "user4_address1") to "#freename";
-    input $ref("user3").password to "#freepassword";
-    click ".loginBtn";
-    assert ".freeError" shown;
-    assert ".freeError .tip11" shown;
-    assert ".freeError .tip11".css("color") = "#e32929";
-    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" shown;
-    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError" exists;
-    assert ".freeError .tip11".css("color") = "#e32929" && ".freeError .tip11".val() = 123;
-
-    input "ideacaserunner@sina.com" to "#freename";
-    input "IdeaCaseRunner1" to "#freepassword";
     click ".loginBtn";
     wait 5000;
 };

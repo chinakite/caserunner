@@ -460,6 +460,7 @@ public class CaseFileParser {
                     TerminalNode seqMethodNode = dataMethodCtx.D_SEQ();
                     TerminalNode uniqueMethodNode = dataMethodCtx.D_UNIQUE();
                     TerminalNode refMethodNode = dataMethodCtx.D_REF();
+                    TerminalNode propMethodNode = dataMethodCtx.D_PROP();
                     if(randMethodNode != null) {
                         RandomMethod randMethod = new RandomMethod();
                         IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
@@ -511,6 +512,21 @@ public class CaseFileParser {
                         }
 
                         inputCommand.addParamMethod(refMethod);
+                    }else if(propMethodNode != null) {
+                        PropertyMethod propMethod = new PropertyMethod();
+
+                        IdeaCaseParser.DataMethodParam1Context param1Ctx = dataMethodCtx.dataMethodParam1();
+                        TerminalNode param1Node = param1Ctx.StringLiteral();
+                        if(param1Node != null) {
+                            propMethod.setInputParam1(StringUtils.extractRealString(param1Node.getText()));
+                        }
+                        IdeaCaseParser.DataMethodParam2Context param2Ctx = dataMethodCtx.dataMethodParam2();
+                        TerminalNode param2Node = param2Ctx.StringLiteral();
+                        if(param2Node != null) {
+                            propMethod.setInputParam2(StringUtils.extractRealString(param2Node.getText()));
+                        }
+
+                        inputCommand.addParamMethod(propMethod);
                     }
                 }else if(dataPropCtx != null) {
                     TerminalNode propNameCtx = dataPropCtx.ID();

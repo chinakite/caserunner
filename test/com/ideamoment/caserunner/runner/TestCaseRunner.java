@@ -9,7 +9,10 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,12 +34,20 @@ public class TestCaseRunner {
             env.setBrowser(BrowserType.CHROME);
 
             RunContext context = new MemoryRunContext();
+            ConcurrentHashMap map = new ConcurrentHashMap();
+            User user1 = new User();
+            user1.setUsername("ideacaserunner@sina.com");
+            user1.setPassword("IdeaCaseRunner1");
+            List<User> userList = new ArrayList<User>();
+            userList.add(user1);
+            map.put("user", userList);
+            context.setContext(map);
             
-            DefaultCaseRunner runner = new DefaultCaseRunner();
+            DefaultCaseRunner runner = new DefaultCaseRunner(context);
             Map<String, Case> cases = casefile.getCases();
-            runner.run(env, cases.get("openLoginPage"), context);
-            runner.run(env, cases.get("login"), context);
-            runner.run(env, cases.get("writeEmail"), context);
+            runner.run(env, cases.get("openLoginPage"));
+            runner.run(env, cases.get("login"));
+            runner.run(env, cases.get("writeEmail"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

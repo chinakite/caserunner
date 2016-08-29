@@ -12,5 +12,10 @@ import com.ideamoment.caserunner.model.Env;
  *
  */
 public interface CaseRunner {
-    public CaseExecuteResult run(Env env, Case caze, RunContext context);
+
+    public CaseExecuteResult run(Env env, Case caze);
+
+    public void setRunContext(RunContext runContext);
+
+    public RunContext getRunContext();
 }
