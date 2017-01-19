@@ -10,7 +10,7 @@ case login {
     input "15903670102" to "#pin";
     input "testpassword" to "input[type=password]";
     click ".loginBtn";
-    click "a[href=http://buyer.b2btest.com]";
+    click "a[href=http://buyer.test.com]";
 };
 
 /*
